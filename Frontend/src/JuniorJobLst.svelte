@@ -1,5 +1,6 @@
 <!-- Scripts -->
 <script>
+  import Button from "./Button.svelte";
   export let data = [];
 </script>
 
@@ -16,7 +17,7 @@
       <div>
         <!-- The tags are showed as buttons that can be clicked to select it as filter -->
         {#each i.tags as tag}
-          <button>{tag}</button>
+          <Button>{tag}</Button>
         {/each}
       </div>
     </div>
