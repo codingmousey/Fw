@@ -6,6 +6,7 @@
   import Map from "./Map.svelte";
   import AddJuniorJobForm from "./AddJuniorJobForm.svelte";
   import Login from "./Login.svelte";
+  import Search from "./Search.svelte";
   let current_item;
   let data = [
     {
@@ -44,6 +45,7 @@
 	updated here, basically to keep track of what to display
 -->
 <Header bind:current_item />
+<Search/>
 <main>
   <!-- svelte-ignore empty-block -->
   {#if current_item === "Home"}
@@ -67,7 +69,7 @@
 <style>
   main {
     max-width: 80%;
-    margin: 30px auto;
+    margin: 20px auto;
     display: flex;
   }
 </style>
