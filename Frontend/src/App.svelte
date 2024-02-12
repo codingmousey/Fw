@@ -5,6 +5,7 @@
   import JuniorJobLst from "./JuniorJobLst.svelte";
   import Map from "./Map.svelte";
   import AddJuniorJobForm from "./AddJuniorJobForm.svelte";
+  import Login from "./Login.svelte";
   let current_item;
   let data = [
     {
@@ -57,7 +58,7 @@
   {:else if current_item === "Statistics"}
     <div><h2>Here comes some interesting statistics</h2></div>
   {:else if current_item === "Sign In"}
-    <div><h2>Here comes the sign in page</h2></div>
+    <Login/>
   {/if}
 </main>
 <Footer />
