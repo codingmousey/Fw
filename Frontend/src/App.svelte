@@ -4,6 +4,7 @@
   import Footer from "./Footer.svelte";
   import JuniorJobLst from "./JuniorJobLst.svelte";
   import Map from "./Map.svelte";
+  import AddJuniorJobForm from "./AddJuniorJobForm.svelte";
   let current_item;
   let data = [
     {
@@ -28,6 +29,12 @@
       tags: ["Java", "Springboot"],
     },
   ];
+  const listenAdd = (e) => {
+    const obj = e.detail;
+    data = [obj, ...data];
+    console.log(data);
+    current_item = 'Home';
+  }
 </script>
 
 <!-- Scripts -->
@@ -40,11 +47,11 @@
   <!-- svelte-ignore empty-block -->
   {#if current_item === "Home"}
     <JuniorJobLst {data} />
-    <Map />
+    <Map {data} />
   {:else if current_item === "About us"}
     <div><h2>Here comes the About us page</h2></div>
   {:else if current_item === "Post Junior Job"}
-    <div><h2>Here comes the form to post junior jobs</h2></div>
+    <AddJuniorJobForm  on:add={listenAdd}/>
   {:else if current_item === "My Profile"}
     <div><h2>Here comes the profile page</h2></div>
   {:else if current_item === "Statistics"}
