@@ -35,7 +35,7 @@
 <!-- Css -->
 <style>
   header {
-    background: #f7f5f5;
+    background: #ffffff;
     display: flex;
     justify-content: space-between;
     align-items: center;

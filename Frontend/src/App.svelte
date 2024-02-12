@@ -8,27 +8,26 @@
   let data = [
     {
       id: 1,
-      company: 'Cegeka',
-      jobtitle: 'Junior .NET developer',
-      addres: 'Hasselt',
-      tags: ['.NET', 'NodeJS'],
+      company: "Cegeka",
+      jobtitle: "Junior .NET developer",
+      addres: "Hasselt",
+      tags: [".NET", "NodeJS"],
     },
     {
       id: 2,
-      company: 'Apple',
-      jobtitle: 'Junior System Architect',
-      addres: 'Antwerpen',
-      tags: ['Cpp', 'CMake'],
+      company: "Apple",
+      jobtitle: "Junior System Architect",
+      addres: "Antwerpen",
+      tags: ["Cpp", "CMake"],
     },
     {
       id: 3,
-      company: 'Microsoft',
-      jobtitle: 'Fullstack Developer',
-      addres: 'Gent',
-      tags: ['Java', 'Springboot'],
+      company: "Microsoft",
+      jobtitle: "Fullstack Developer",
+      addres: "Gent",
+      tags: ["Java", "Springboot"],
     },
   ];
-
 </script>
 
 <!-- Scripts -->
@@ -40,8 +39,8 @@
 <main>
   <!-- svelte-ignore empty-block -->
   {#if current_item === "Home"}
-	<JuniorJobLst {data}/>
-	<Map/>
+    <JuniorJobLst {data} />
+    <Map />
   {:else if current_item === "About us"}
     <div><h2>Here comes the About us page</h2></div>
   {:else if current_item === "Post Junior Job"}
@@ -61,7 +60,6 @@
   main {
     max-width: 80%;
     margin: 30px auto;
-	display:flex;
- 
+    display: flex;
   }
 </style>

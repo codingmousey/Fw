@@ -1,6 +1,7 @@
 <!-- Scripts -->
 <script>
   import Button from "./Button.svelte";
+  import JuniorJobItemCard from "./JuniorJobItemCard.svelte";
   export let data = [];
 </script>
 
@@ -9,8 +10,10 @@
     After receiving the 'for the moment' hardcoded data from App.svelte, each lst item is
     read and displayed here
 -->
+
 <div class="div">
   {#each data as i (i.id)}
+  <JuniorJobItemCard>
     <div class="detail">
       <h3>{i.jobtitle}</h3>
       <p>{i.company} in {i.addres}</p>
@@ -19,8 +22,11 @@
         {#each i.tags as tag}
           <Button>{tag}</Button>
         {/each}
+        
       </div>
+      
     </div>
+</JuniorJobItemCard>
   {/each}
 </div>
 
@@ -30,6 +36,7 @@
     display: grid;
     grid-template-columns: 1fr 1fr;
     flex: 1;
+    grid-gap:20px;
   }
 
   .detail h3 {
