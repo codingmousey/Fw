@@ -2,10 +2,15 @@
 <script>
   import Header from "./Header.svelte";
   import Footer from "./Footer.svelte";
+  let current_item;
 </script>
 
 <!-- HTML -->
-<Header />
+<!--
+	Binding the current_item so that when its updated in the header it will also be
+	updated here, basically to keep track of what to display
+-->
+<Header bind:current_item />
 <main>
   <h2>Welcome to Junior Job main page!</h2>
   <p>
@@ -19,6 +24,7 @@
     amet interdum sapien, ut egestas nibh. Curabitur molestie rhoncus tempor.
     Aliquam placerat eros vel elit tincidunt, nec feugiat mauris molestie.
   </p>
+  <h2>The current navbar value is: {current_item}</h2>
 </main>
 <Footer />
 
