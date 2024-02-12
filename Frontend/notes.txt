@@ -1,0 +1,21 @@
+In this file I will be writing down my personal notes during the development process.
+
+# creating svelte frontend template
+    open cmd go into projectfolder then 'degit sveltejs/template Frontend'
+
+# main.js is the mainfile svelte uses to start our app
+# App.svelte is the root of our app
+
+# installing the dependencies from package.json
+    open terminal and then 'npm install'
+    after doing this in the folder structure there will be a new folder called 'node_modules' and another .json file
+
+# opening up the dev server
+    in terminal type 'npm run dev'
+
+# in each svelte component (fileName.svelte) we can have up to 3 parts
+    - a script tag for the component logic
+    - am html template thats gonna be injected
+    - a style tag for the current component
+
+# 
