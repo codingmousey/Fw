@@ -47,7 +47,7 @@
   <!-- svelte-ignore empty-block -->
   {#if current_item === "Home"}
     <JuniorJobLst {data} />
-    <Map {data} />
+    <Map {data}/>
   {:else if current_item === "About us"}
     <div><h2>Here comes the About us page</h2></div>
   {:else if current_item === "Post Junior Job"}
