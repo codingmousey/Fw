@@ -1,6 +1,7 @@
 <script>
   import { createEventDispatcher } from "svelte";
   import Button from "./Button.svelte";
+  import lst from './db.js';
 
   let dispatch = createEventDispatcher();
 
@@ -15,7 +16,10 @@
     let lst_tags = obj.tags.split(",").map((tag) => tag.trim());
     console.log("obj");
     let juniorJob = { ...obj, id: Math.random(), tags: lst_tags };
-    dispatch("add", juniorJob);
+    lst.update(conData => {
+      return [juniorJob, ...conData];
+    })
+    dispatch("add");
   };
 </script>
 

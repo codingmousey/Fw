@@ -1,8 +1,8 @@
 <!-- Scripts -->
 <script>
+  import lst from './db.js';
   import Button from "./Button.svelte";
   import JuniorJobItemCard from "./JuniorJobItemCard.svelte";
-  export let data = [];
 </script>
 
 <!-- HTML -->
@@ -11,7 +11,7 @@
     read and displayed here
 -->
 <div class="div">
-  {#each data as i (i.id)}
+  {#each $lst as i (i.id)}
     <JuniorJobItemCard>
       <div class="detail">
         <h3>{i.jobtitle}</h3>
