@@ -7,37 +7,14 @@
   import AddJuniorJobForm from "./AddJuniorJobForm.svelte";
   import Login from "./Login.svelte";
   import Search from "./Search.svelte";
+  import lst from './db.js';
   let current_item;
   let signedIn = false;
   let username = "";
   $: console.log("signedIn NOW is : " + signedIn);
-  let data = [
-    {
-      id: 1,
-      company: "Cegeka",
-      jobtitle: "Junior .NET developer",
-      addres: "Hasselt",
-      tags: [".NET", "NodeJS"],
-    },
-    {
-      id: 2,
-      company: "Apple",
-      jobtitle: "Junior System Architect",
-      addres: "Antwerpen",
-      tags: ["Cpp", "CMake"],
-    },
-    {
-      id: 3,
-      company: "Microsoft",
-      jobtitle: "Fullstack Developer",
-      addres: "Gent",
-      tags: ["Java", "Springboot"],
-    },
-  ];
+  
   const listenAdd = (e) => {
-    const obj = e.detail;
-    data = [obj, ...data];
-    console.log(data);
+    console.log(e.detail);
     current_item = "Home";
   };
 
@@ -50,6 +27,7 @@
   };
 
   const handleSignOut = () => {
+    console.log('user signed out');
     username = "";
     signedIn = false;
     console.log("signedIn: " + signedIn);
@@ -67,8 +45,8 @@
 <main>
   <!-- svelte-ignore empty-block -->
   {#if current_item === "Home"}
-    <JuniorJobLst {data} />
-    <Map {data} />
+    <JuniorJobLst {$lst} />
+    <Map {$lst} />
   {:else if current_item === "About us"}
     <div><h2>Here comes the About us page</h2></div>
   {:else if current_item === "Post Junior Job"}

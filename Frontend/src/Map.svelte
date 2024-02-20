@@ -5,8 +5,7 @@
 <script>
   import {onMount} from "svelte";
   import L from "leaflet";
-
-  export let data = [];
+  import lst from './db.js';
 
   onMount(() => {
     // setting up the map (geocode for Anderlecht EhB)
@@ -21,7 +20,7 @@
 
     // adding markers to the map by getting the lattitude and longitude from an api call to nominatim
     // source: https://nominatim.org/release-docs/develop/api/Search/
-    data.forEach((i) => {
+    $lst.forEach((i) => {
       const address = i.addres;
       fetch(
         `https://nominatim.openstreetmap.org/search?format=json&q=${address}, Belgium`
