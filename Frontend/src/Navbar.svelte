@@ -4,21 +4,21 @@
   const dispatch = createEventDispatcher();
   export let arr;
   export let current_item;
+  export let signedIn;
+  $: signInStatus = signedIn;
 </script>
 
-<!-- HTML -->
-<!--
-    We take the array forwarded from Header.svelte containing all the navbar items 
-    and go though them while also checking which the current navbar item is to highlight it
-    Doing this by creating a custom event that sends data back whenever the li item is clicked
--->
 <div class="arr">
   <ul>
     {#each arr as i}
       <!-- svelte-ignore a11y-click-events-have-key-events -->
       <li on:click={() => dispatch("customEvent_clickNavItem", i)}>
         <div class:current={i === current_item}>
-          {i}
+          {i === "Sign In" && !signInStatus
+            ? "Sign In"
+            : i === "Sign Out" && signInStatus
+              ? "Sign Out"
+              : i}
         </div>
       </li>
     {/each}

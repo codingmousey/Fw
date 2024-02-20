@@ -9,14 +9,22 @@
     "Post Junior Job",
     "My Profile",
     "Statistics",
-    "Sign In",
   ];
 
   export let current_item = arr[0]; // starting with the Homepage being highlighted
+  export let signedIn = false;
 
   const customEventListen_clickNavItem = (e) => {
     current_item = e.detail; // change the current_item to whichever was clicked
   };
+
+  $: if (signedIn) {
+    arr = arr.filter((item) => item !== "Sign In");
+    arr.push("Sign Out");
+  } else {
+    arr = arr.filter((item) => item !== "Sign Out");
+    arr.push("Sign In");
+  }
 </script>
 
 <!-- HTML -->
@@ -28,6 +36,7 @@
   <Navbar
     {arr}
     {current_item}
+    {signedIn}
     on:customEvent_clickNavItem={customEventListen_clickNavItem}
   />
 </header>

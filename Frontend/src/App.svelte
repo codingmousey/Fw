@@ -8,6 +8,9 @@
   import Login from "./Login.svelte";
   import Search from "./Search.svelte";
   let current_item;
+  let signedIn = false;
+  let username = "";
+  $: console.log("signedIn NOW is : " + signedIn);
   let data = [
     {
       id: 1,
@@ -35,8 +38,23 @@
     const obj = e.detail;
     data = [obj, ...data];
     console.log(data);
-    current_item = 'Home';
-  }
+    current_item = "Home";
+  };
+
+  const handleSignIn = (userInfo) => {
+    console.log("user signed in");
+    username = userInfo.username;
+    signedIn = true;
+    console.log("signedIn: " + signedIn);
+    current_item = "Home";
+  };
+
+  const handleSignOut = () => {
+    username = "";
+    signedIn = false;
+    console.log("signedIn: " + signedIn);
+    current_item = "Home";
+  };
 </script>
 
 <!-- Scripts -->
@@ -44,23 +62,23 @@
 	Binding the current_item so that when its updated in the header it will also be
 	updated here, basically to keep track of what to display
 -->
-<Header bind:current_item />
-<Search/>
+<Header bind:current_item {signedIn} on:signOut={handleSignOut} />
+<Search />
 <main>
   <!-- svelte-ignore empty-block -->
   {#if current_item === "Home"}
     <JuniorJobLst {data} />
-    <Map {data}/>
+    <Map {data} />
   {:else if current_item === "About us"}
     <div><h2>Here comes the About us page</h2></div>
   {:else if current_item === "Post Junior Job"}
-    <AddJuniorJobForm  on:add={listenAdd}/>
+    <AddJuniorJobForm on:add={listenAdd} />
   {:else if current_item === "My Profile"}
     <div><h2>Here comes the profile page</h2></div>
   {:else if current_item === "Statistics"}
     <div><h2>Here comes some interesting statistics</h2></div>
   {:else if current_item === "Sign In"}
-    <Login/>
+    <Login on:signIn={handleSignIn} />
   {/if}
 </main>
 <Footer />

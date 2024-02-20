@@ -1,5 +1,7 @@
 <script>
   import Button from "./Button.svelte";
+  import { createEventDispatcher } from "svelte";
+  const dispatch = createEventDispatcher();
   let obj = {
     username: "",
     pw: ""
@@ -7,6 +9,10 @@
 
   const customSubmitHandler = () => {
     console.log(obj);
+    const userInfo = { username: obj.username };
+    obj.username = '';
+    obj.pw = '';
+    dispatch('signIn', userInfo);
   };
 </script>
 
