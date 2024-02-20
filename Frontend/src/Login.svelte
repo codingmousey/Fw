@@ -8,10 +8,10 @@
   };
 
   const customSubmitHandler = () => {
-    console.log(obj);
+    console.log('login customSubmitHandler: ' + obj);
     const userInfo = { username: obj.username };
-    obj.username = '';
-    obj.pw = '';
+    console.log('userInfo obj: ' + userInfo);
+    console.log('userInfo.username: ' + userInfo.username);
     dispatch('signIn', userInfo);
   };
 </script>

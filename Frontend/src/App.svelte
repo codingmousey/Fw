@@ -7,27 +7,30 @@
   import AddJuniorJobForm from "./AddJuniorJobForm.svelte";
   import Login from "./Login.svelte";
   import Search from "./Search.svelte";
-  import lst from './db.js';
+  import lst from "./db.js";
   let current_item;
   let signedIn = false;
   let username = "";
   $: console.log("signedIn NOW is : " + signedIn);
-  
+
   const listenAdd = (e) => {
     console.log(e.detail);
     current_item = "Home";
   };
 
   const handleSignIn = (userInfo) => {
+    console.log("work??" + userInfo.detail.username);
     console.log("user signed in");
-    username = userInfo.username;
+    username = userInfo.detail.username;
     signedIn = true;
     console.log("signedIn: " + signedIn);
+    console.log("username logged in: " + username);
+    console.log("username logged in: " + userInfo.detail.username);
     current_item = "Home";
   };
 
   const handleSignOut = () => {
-    console.log('user signed out');
+    console.log("user signed out");
     username = "";
     signedIn = false;
     console.log("signedIn: " + signedIn);
@@ -40,7 +43,7 @@
 	Binding the current_item so that when its updated in the header it will also be
 	updated here, basically to keep track of what to display
 -->
-<Header bind:current_item {signedIn} on:signOut={handleSignOut} />
+<Header bind:current_item {signedIn}{username} on:signOut={handleSignOut} />
 <Search />
 <main>
   <!-- svelte-ignore empty-block -->
