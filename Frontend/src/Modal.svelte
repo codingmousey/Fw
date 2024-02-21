@@ -1,12 +1,20 @@
 <!-- modal.svelte -->
 <script>
-    let modalVisible = false;
+    export let modalVisible = false;
     export let msg;
+    import {createEventDispatcher} from 'svelte';
+    const dispatch = createEventDispatcher();
 
+    $: console.log('modalVisible atm is: ' + modalVisible);
+
+    function handleClose(){
+      dispatch('closeModal');
+    }
   </script>
   
   {#if modalVisible}
-    <div class="blackout">
+    <!-- svelte-ignore a11y-click-events-have-key-events -->
+    <div class="blackout" on:click={handleClose}>
       <div class="modal">
         <p>{msg}</p>
       </div>
@@ -24,7 +32,7 @@
       display: flex;
       justify-content: center;
       align-items: center;
-      z-index: 1000;
+      z-index: 1000; /* stackoverflow.com/questions/2305669/all-about-z-index */
     }
   
     .modal {
@@ -34,8 +42,7 @@
       margin: 10% auto;
       text-align: center;
       background: rgb(100, 48, 48);
-      z-index: 1001;
-      /* Add other modal styles as needed */
+      z-index: 1001; /* stackoverflow.com/questions/2305669/all-about-z-index */
     }
   </style>
   

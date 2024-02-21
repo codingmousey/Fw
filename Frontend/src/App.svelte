@@ -44,6 +44,15 @@
   function toggleView() {
     currentView = currentView === "list" ? "card" : "list";
   }
+
+  let modalVisible = false;
+  let itemId;
+
+  function toggleModal(){
+    modalVisible = !modalVisible;
+  }
+
+
 </script>
 
 <!-- Scripts -->
@@ -94,7 +103,8 @@
 
 <main>
 
-<Modal msg="ahhahahaah"/>
+  <button on:click={toggleModal}>Toggle modal</button>
+<Modal msg="ahhahahaah" {modalVisible} on:closeModal={toggleModal}/>
 
   <!-- svelte-ignore empty-block -->
   {#if current_item === "Home"}
