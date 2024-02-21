@@ -16,6 +16,10 @@
   });
   let language = "";
   let location = "";
+
+  function handleSearch(){
+    console.log('search button clicked');
+  }
 </script>
 
 <!-- HTML -->
@@ -56,7 +60,7 @@
         {/each}
       </datalist>
     </div>
-    <Button>Search</Button>
+    <Button on:click={handleSearch}>Search</Button>
   </form>
 </header>
 
