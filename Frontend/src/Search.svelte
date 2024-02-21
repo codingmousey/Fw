@@ -1,6 +1,21 @@
 <!-- Scripts -->
 <script>
   import Button from "./Button.svelte";
+  import lst from "./db.js";
+  import { derived } from "svelte/store";
+  /* https://eternaldev.com/blog/introduction-to-svelte-derived-store */
+  /* https://stackoverflow.com/questions/1960473/get-all-unique-values-in-a-javascript-array-remove-duplicates */
+
+  const languages = derived(lst, ($lst) => {
+    const tags = $lst.map((i) => i.tags).flat();
+    return [...new Set(tags)];
+  });
+
+  const locations = derived(lst, ($lst) => {
+    return [...new Set($lst.map((i) => i.addres))];
+  });
+  let language = "";
+  let location = "";
 </script>
 
 <!-- HTML -->
@@ -14,10 +29,32 @@
 
   <form class="div" on:submit|preventDefault>
     <div class="form-field">
-      <input type="text" id="language" placeholder="Language" />
+      <input
+        type="text"
+        bind:value={language}
+        id="language"
+        list="languages"
+        placeholder="Language"
+      />
+      <datalist id="languages">
+        {#each $languages as potentialLanguage}
+          <option value={potentialLanguage} />
+        {/each}
+      </datalist>
     </div>
     <div class="form-field">
-      <input type="text" id="location" placeholder="Location" />
+      <input
+        type="text"
+        bind:value={location}
+        id="location"
+        list="locations"
+        placeholder="Location"
+      />
+      <datalist id="locations">
+        {#each $locations as potentialLocation}
+          <option value={potentialLocation} />
+        {/each}
+      </datalist>
     </div>
     <Button>Search</Button>
   </form>
