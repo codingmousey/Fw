@@ -40,14 +40,15 @@
 
 <!-- HTML -->
 <header>
-  <div>
+  <div class="left">
     <h1>All junior jobs in one place</h1>
     <h3>
-      Find your first job or look around where you can find your dream job!
+      Find your first job or look around where you can find your dream job! Load
+      up your <Button>preferences</Button> OR search:
     </h3>
   </div>
 
-  <form class="div" on:submit|preventDefault>
+  <form class="right" on:submit|preventDefault>
     <div class="form-field">
       <input
         type="text"
@@ -90,7 +91,7 @@
     grid-template-columns: 1fr 1fr;
   }
 
-  .div {
+  .right {
     display: flex;
     align-items: center;
   }
