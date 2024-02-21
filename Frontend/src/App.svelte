@@ -9,7 +9,7 @@
   import Search from "./Search.svelte";
   import lst from "./db.js";
   import ListView from "./ListView.svelte";
-  import Modal from './Modal.svelte';
+  import Modal from "./Modal.svelte";
   let current_item;
   let signedIn = false;
   let username = "";
@@ -46,13 +46,19 @@
   }
 
   let modalVisible = false;
-  let itemId;
+  let item;
 
-  function toggleModal(){
+
+  function toggleModal() {
     modalVisible = !modalVisible;
   }
 
-
+  function handleGetIdFromDivClick(e) {
+    console.log("div clicked w/ id:", e.detail.id);
+    item = {...e.detail};
+    console.log('item : ' + item);
+    toggleModal();
+  }
 </script>
 
 <!-- Scripts -->
@@ -102,16 +108,13 @@
 <Search />
 
 <main>
-
-  <button on:click={toggleModal}>Toggle modal</button>
-<Modal msg="ahhahahaah" {modalVisible} on:closeModal={toggleModal}/>
-
+  <Modal {item} {modalVisible} on:closeModal={toggleModal} />
   <!-- svelte-ignore empty-block -->
   {#if current_item === "Home"}
     {#if currentView === "list"}
       <ListView />
     {:else}
-      <CardView {$lst} />
+      <CardView {$lst} on:getIdFromDivClick={handleGetIdFromDivClick} />
     {/if}
 
     <Map {$lst} />

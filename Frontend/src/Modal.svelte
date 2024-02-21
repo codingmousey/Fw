@@ -1,7 +1,7 @@
 <!-- modal.svelte -->
 <script>
     export let modalVisible = false;
-    export let msg;
+    export let item;
     import {createEventDispatcher} from 'svelte';
     const dispatch = createEventDispatcher();
 
@@ -16,7 +16,7 @@
     <!-- svelte-ignore a11y-click-events-have-key-events -->
     <div class="blackout" on:click={handleClose}>
       <div class="modal">
-        <p>{msg}</p>
+        <pre>{JSON.stringify(item, null, 2)}</pre>
       </div>
     </div>
   {/if}
@@ -36,12 +36,13 @@
     }
   
     .modal {
+      color: white;
       padding: 10px;
       border-radius: 10px;
       max-width: 400px;
       margin: 10% auto;
       text-align: center;
-      background: rgb(100, 48, 48);
+      background: #6e3434;
       z-index: 1001; /* stackoverflow.com/questions/2305669/all-about-z-index */
     }
   </style>

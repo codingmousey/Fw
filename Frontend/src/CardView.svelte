@@ -1,12 +1,18 @@
 <script>
   import Button from "./Button.svelte";
   import lst from "./db.js";
+  import { createEventDispatcher } from "svelte";
+  const dispatch = createEventDispatcher();
+  function handleDivClick(i) {
+    console.log("div clicked with id: " + i.id);
+    dispatch("getIdFromDivClick", i);
+  }
 </script>
 
 <div class="div">
   {#each $lst as i (i.id)}
     <!-- svelte-ignore a11y-click-events-have-key-events -->
-    <div class="card" on:click={ () => console.log('div clicked with id: ' + i.id)}>
+    <div class="card" on:click={() => handleDivClick(i)}>
       <div class="detail">
         <h3>{i.jobtitle}</h3>
         <p>{i.company} in {i.address}</p>
