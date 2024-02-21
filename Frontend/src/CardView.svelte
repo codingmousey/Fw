@@ -1,6 +1,6 @@
 <script>
   import Button from "./Button.svelte";
-  import lst from "./db.js";
+  import { lst } from "./db.js";
   import { createEventDispatcher } from "svelte";
   const dispatch = createEventDispatcher();
   function handleDivClick(i) {

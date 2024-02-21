@@ -3,9 +3,9 @@
     Source: https://leafletjs.com/examples/quick-start/
 -->
 <script>
-  import {onMount} from "svelte";
+  import { onMount } from "svelte";
   import L from "leaflet";
-  import lst from './db.js';
+  import { lst } from "./db.js";
 
   onMount(() => {
     // setting up the map (geocode for Anderlecht EhB)
@@ -50,7 +50,9 @@
 
 <!-- HTML -->
 
-<div id="map" style="z-index: 999;"></div> <!-- stackoverflow.com/questions/2305669/all-about-z-index -->
+<div id="map" style="z-index: 999;"></div>
+
+<!-- stackoverflow.com/questions/2305669/all-about-z-index -->
 
 <!-- Css -->
 <style>

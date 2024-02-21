@@ -1,7 +1,7 @@
 <script>
   import { createEventDispatcher } from "svelte";
   import Button from "./Button.svelte";
-  import lst from './db.js';
+  import { lst } from "./db.js";
 
   let dispatch = createEventDispatcher();
 
@@ -15,10 +15,14 @@
   const customSubmitHandler = () => {
     let lst_tags = obj.tags.split(",").map((tag) => tag.trim());
     console.log("obj");
-    let juniorJob = { ...obj, id: Math.floor(Math.random() * 90) + 10, tags: lst_tags};
-    lst.update(conData => {
+    let juniorJob = {
+      ...obj,
+      id: Math.floor(Math.random() * 90) + 10,
+      tags: lst_tags,
+    };
+    lst.update((conData) => {
       return [juniorJob, ...conData];
-    })
+    });
     dispatch("add");
   };
 </script>

@@ -7,7 +7,7 @@
   import AddJuniorJobForm from "./AddJuniorJobForm.svelte";
   import Login from "./Login.svelte";
   import Search from "./Search.svelte";
-  import lst from "./db.js";
+  import { lst } from "./db.js";
   import ListView from "./ListView.svelte";
   import Modal from "./Modal.svelte";
   import Profile from "./Profile.svelte";
@@ -49,15 +49,14 @@
   let modalVisible = false;
   let item;
 
-
   function toggleModal() {
     modalVisible = !modalVisible;
   }
 
   function handleGetIdFromDivClick(e) {
     console.log("div clicked w/ id:", e.detail.id);
-    item = {...e.detail};
-    console.log('item : ' + item);
+    item = { ...e.detail };
+    console.log("item : " + item);
     toggleModal();
   }
 </script>
@@ -124,7 +123,7 @@
   {:else if current_item === "Post Junior Job"}
     <AddJuniorJobForm on:add={listenAdd} />
   {:else if current_item === "My Profile"}
-    <Profile/>
+    <Profile />
   {:else if current_item === "Statistics"}
     <div><h2>Here comes some interesting statistics</h2></div>
   {:else if current_item === "Sign In"}

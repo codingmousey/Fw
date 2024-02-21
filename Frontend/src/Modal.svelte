@@ -4,9 +4,17 @@
   export let item;
   import { createEventDispatcher } from "svelte";
   const dispatch = createEventDispatcher();
+
   $: console.log("modalVisible atm is: " + modalVisible);
+
   function handleClose() {
     dispatch("closeModal");
+  }
+  import { applications } from "./db.js";
+  function handleApply() {
+    console.log(`saved job with id: ${item.id} to your applications`);
+    applications.update((apps) => [...apps, item.id]);
+    alert(`Successfully sent your CV to ${item.company}!`);
   }
 </script>
 
@@ -16,7 +24,8 @@
     <div class="modal">
       <button id="closeButton" on:click|self={handleClose}>X</button>
       <pre>{JSON.stringify(item, null, 2)}</pre>
-      <button id="applyButton" on:click={() => alert(`Succesfully sent your CV to ${item.company}!`)}>Apply for this job</button>
+      <button id="applyButton" on:click={handleApply}>Apply for this job</button
+      >
     </div>
   </div>
 {/if}
@@ -59,7 +68,6 @@
     cursor: pointer;
   }
   #applyButton {
-   
     background-color: rgb(147, 180, 139);
     color: rgb(0, 0, 0);
     padding: 5px 10px;

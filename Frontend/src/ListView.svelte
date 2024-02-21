@@ -1,5 +1,5 @@
 <script>
-  import lst from "./db.js";
+  import { lst } from "./db.js";
 </script>
 
 <div class="lst">
