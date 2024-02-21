@@ -14,7 +14,7 @@
   
   {#if modalVisible}
     <!-- svelte-ignore a11y-click-events-have-key-events -->
-    <div class="blackout" on:click={handleClose}>
+    <div class="blackout" on:click|self={handleClose}>
       <div class="modal">
         <pre>{JSON.stringify(item, null, 2)}</pre>
       </div>
