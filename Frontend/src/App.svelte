@@ -10,6 +10,7 @@
   import lst from "./db.js";
   import ListView from "./ListView.svelte";
   import Modal from "./Modal.svelte";
+  import Profile from "./Profile.svelte";
   let current_item;
   let signedIn = false;
   let username = "";
@@ -123,7 +124,7 @@
   {:else if current_item === "Post Junior Job"}
     <AddJuniorJobForm on:add={listenAdd} />
   {:else if current_item === "My Profile"}
-    <div><h2>Here comes the profile page</h2></div>
+    <Profile/>
   {:else if current_item === "Statistics"}
     <div><h2>Here comes some interesting statistics</h2></div>
   {:else if current_item === "Sign In"}
