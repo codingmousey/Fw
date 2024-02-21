@@ -17,8 +17,20 @@
   let language = "";
   let location = "";
 
-  function handleSearch(){
-    console.log('search button clicked');
+  let filteredJobs = [];
+  function handleSearch() {
+    console.log("search button clicked");
+    console.log(language);
+    console.log(location);
+    filteredJobs = $lst.filter((i) => {
+      /* https://d7k.medium.com/js-includes-vs-some-b3cd546a7bc3 */
+      const filterLanguage = !language || i.tags.some(tag => tag.toLowerCase().includes(language.toLowerCase()));
+      const filterLocation = !location || i.addres.toLowerCase().includes(location.toLowerCase());
+      return filterLanguage && filterLocation;
+    });
+    console.log("filtered jobs:", filteredJobs);
+    alert(JSON.stringify(filteredJobs, null, 2));
+
   }
 </script>
 
