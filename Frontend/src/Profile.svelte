@@ -1,7 +1,32 @@
 <script>
-  import { applications } from "./db.js";
+  import { applications, preferences } from "./db.js";
   function removeApplication(id) {
     applications.update((apps) => apps.filter((app) => app !== id));
+  }
+
+  let pref = "";
+  let showPreferences = false;
+  let showMessage = false;
+
+  function addPreference() {
+    if (pref.trim() !== "") {
+      preferences.update((oldDbData) => [...oldDbData, pref.trim()]);
+      pref = "";
+      showMessage = true;
+      setTimeout(() => {
+        showMessage = false;
+      }, 1000);
+    }
+  }
+
+  function removePreference(indexToRemove) {
+    preferences.update((prefs) =>
+      prefs.filter((_, index) => index !== indexToRemove)
+    );
+  }
+
+  function togglePreferences() {
+    showPreferences = !showPreferences;
   }
 </script>
 
@@ -19,7 +44,41 @@
       {/each}
     </ul>
   </div>
-  <div class="column"></div>
+  <div class="column">
+    <h2>My preferences</h2>
+    <div>
+      <input type="text" bind:value={pref} placeholder="Enter Preference" />
+      <button id="addButton" on:click={addPreference}>Add</button>
+    </div>
+
+    <button id="toggleButton" on:click={togglePreferences}>
+      {#if showPreferences}
+        Hide
+      {:else}
+        Show
+      {/if}
+    </button>
+
+    {#if showMessage}
+      <p class="message">Added succesfully</p>
+    {/if}
+
+    {#if showPreferences}
+      <div>
+        <ul>
+          {#each $preferences as pref, i}
+            <li>
+              {pref}
+              <button
+                id="removeButton2"
+                on:click={() => removePreference(i)}>Remove</button
+              >
+            </li>
+          {/each}
+        </ul>
+      </div>
+    {/if}
+  </div>
   <div class="column"></div>
 </div>
 
@@ -31,7 +90,7 @@
 
   .column {
     flex: 1;
-    border: 3px solid black;
+    /* border: 3px solid black; */
     padding: 20px;
   }
 
@@ -45,7 +104,40 @@
     cursor: pointer;
   }
 
+  #addButton {
+    background-color: rgb(82, 153, 24);
+    color: rgb(0, 0, 0);
+    padding: 5px 10px;
+    border: none;
+    border-radius: 4;
+    box-shadow: 2px 2px 2px 2px rgba(0, 0, 0, 0.3);
+    cursor: pointer;
+  }
+
+  #removeButton2 {
+    background-color: rgb(184, 91, 91);
+    color: rgb(0, 0, 0);
+    padding: 5px 10px;
+    border: none;
+    border-radius: 4;
+    box-shadow: 2px 2px 2px 2px rgba(0, 0, 0, 0.3);
+    cursor: pointer;
+  }
+  #toggleButton {
+    background-color: rgb(49, 41, 41);
+    color: white;
+    padding: 5px 10px;
+    border: none;
+    border-radius: 4;
+    box-shadow: 2px 2px 2px 2px rgba(0, 0, 0, 0.3);
+    cursor: pointer;
+  }
+
   h2 {
     color: #6e3434;
+  }
+
+  .message {
+    color: green;
   }
 </style>

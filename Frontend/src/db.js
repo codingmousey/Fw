@@ -26,3 +26,4 @@ export const lst = writable([
 ]);
 
 export const applications = writable([]);
+export const preferences = writable([]);
