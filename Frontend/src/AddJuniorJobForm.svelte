@@ -15,7 +15,7 @@
   const customSubmitHandler = () => {
     let lst_tags = obj.tags.split(",").map((tag) => tag.trim());
     console.log("obj");
-    let juniorJob = { ...obj, id: Math.random(), tags: lst_tags };
+    let juniorJob = { ...obj, id: Math.floor(Math.random() * 90) + 10, tags: lst_tags};
     lst.update(conData => {
       return [juniorJob, ...conData];
     })
