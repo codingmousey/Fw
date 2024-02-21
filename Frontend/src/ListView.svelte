@@ -3,12 +3,12 @@
 </script>
 
 <div class="lst">
-  {#each $lst as job}
+  {#each $lst as i}
     <article>
-      <span>{job.id}</span>
+      <span>{i.id}</span>
       <!-- svelte-ignore a11y-missing-attribute -->
-      <h2><a>{job.jobtitle}</a></h2>
-      <p class="meta">by {job.company}</p>
+      <h2><a>{i.jobtitle}</a></h2>
+      <p class="meta">by {i.company}</p>
     </article>
   {/each}
 </div>

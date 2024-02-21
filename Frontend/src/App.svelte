@@ -2,13 +2,14 @@
 <script>
   import Header from "./Header.svelte";
   import Footer from "./Footer.svelte";
-  import JuniorJobLst from "./JuniorJobLst.svelte";
+  import CardView from "./CardView.svelte";
   import Map from "./Map.svelte";
   import AddJuniorJobForm from "./AddJuniorJobForm.svelte";
   import Login from "./Login.svelte";
   import Search from "./Search.svelte";
   import lst from "./db.js";
-  import JobListing from "./JobListing.svelte";
+  import ListView from "./ListView.svelte";
+  import Modal from './Modal.svelte';
   let current_item;
   let signedIn = false;
   let username = "";
@@ -92,12 +93,15 @@
 <Search />
 
 <main>
+
+<Modal msg="ahhahahaah"/>
+
   <!-- svelte-ignore empty-block -->
   {#if current_item === "Home"}
     {#if currentView === "list"}
-      <JobListing />
+      <ListView />
     {:else}
-      <JuniorJobLst {$lst} />
+      <CardView {$lst} />
     {/if}
 
     <Map {$lst} />

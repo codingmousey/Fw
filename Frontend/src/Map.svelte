@@ -50,7 +50,7 @@
 
 <!-- HTML -->
 
-<div id="map"></div>
+<div id="map" style="z-index: 999;"></div>
 
 <!-- Css -->
 <style>

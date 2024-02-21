@@ -1,39 +1,39 @@
-<!-- Scripts -->
 <script>
-  import lst from './db.js';
   import Button from "./Button.svelte";
-  import JuniorJobItemCard from "./JuniorJobItemCard.svelte";
+  import lst from "./db.js";
 </script>
 
-<!-- HTML -->
-<!--
-    After receiving the 'for the moment' hardcoded data from App.svelte, each lst item is
-    read and displayed here
--->
 <div class="div">
   {#each $lst as i (i.id)}
-    <JuniorJobItemCard>
+    <!-- svelte-ignore a11y-click-events-have-key-events -->
+    <div class="card" on:click={ () => console.log('div clicked with id: ' + i.id)}>
       <div class="detail">
         <h3>{i.jobtitle}</h3>
-        <p>{i.company} in {i.addres}</p>
+        <p>{i.company} in {i.address}</p>
         <div>
-          <!-- The tags are showed as buttons that can be clicked to select it as filter -->
+          <!-- The tags are shown as buttons that can be clicked to select them as filters -->
           {#each i.tags as tag}
             <Button>{tag}</Button>
           {/each}
         </div>
       </div>
-    </JuniorJobItemCard>
+    </div>
   {/each}
 </div>
 
-<!-- Css -->
 <style>
   .div {
     display: grid;
     grid-template-columns: 1fr 1fr;
     flex: 1;
     grid-gap: 20px;
+  }
+
+  .card {
+    background: #ffffff;
+    padding: 20px;
+    border-radius: 6px;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
   }
 
   .detail h3 {
