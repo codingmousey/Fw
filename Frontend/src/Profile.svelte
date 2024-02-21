@@ -28,6 +28,7 @@
   function togglePreferences() {
     showPreferences = !showPreferences;
   }
+  let yes = false;
 </script>
 
 <div class="container">
@@ -51,7 +52,7 @@
       <button id="addButton" on:click={addPreference}>Add</button>
     </div>
 
-    <button id="toggleButton" on:click={togglePreferences}>
+    <button class="toggleButton" on:click={togglePreferences}>
       {#if showPreferences}
         Hide
       {:else}
@@ -69,17 +70,35 @@
           {#each $preferences as pref, i}
             <li>
               {pref}
-              <button
-                id="removeButton2"
-                on:click={() => removePreference(i)}>Remove</button
+              <button id="removeButton2" on:click={() => removePreference(i)}
+                >Remove</button
               >
             </li>
           {/each}
         </ul>
       </div>
     {/if}
+    <br /><br />
+    <label>
+      <!-- https://svelte.dev/examples/checkbox-inputs -->
+      <input type="email" placeholder="Enter email" /><br />
+      <input type="checkbox" bind:checked={yes} />
+      Yes, send me an email update!
+    </label>
+
+    {#if yes}
+      <p>Thank you. We will keep you updated!</p>
+    {:else}
+      <p>Check the checkbox to confirm.</p>
+    {/if}
+
+    <button class="toggleButton" disabled={!yes}> Subscribe </button>
   </div>
-  <div class="column"></div>
+  <div class="column">
+    <h2>My resume:</h2>
+    <label for="avatar">Upload my CV:</label>
+    <input accept="image/png, image/jpeg" type="file" />
+  </div>
 </div>
 
 <style>
@@ -123,7 +142,7 @@
     box-shadow: 2px 2px 2px 2px rgba(0, 0, 0, 0.3);
     cursor: pointer;
   }
-  #toggleButton {
+  .toggleButton {
     background-color: rgb(49, 41, 41);
     color: white;
     padding: 5px 10px;
@@ -131,6 +150,11 @@
     border-radius: 4;
     box-shadow: 2px 2px 2px 2px rgba(0, 0, 0, 0.3);
     cursor: pointer;
+  }
+
+  .toggleButton:disabled {
+    background-color: gray;
+    cursor: not-allowed;
   }
 
   h2 {
