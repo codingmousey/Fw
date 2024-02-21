@@ -14,6 +14,10 @@
     text-align: center;
     font-size: 16;
     font-weight: bold;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
   }
   
   .div{

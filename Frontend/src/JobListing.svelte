@@ -6,6 +6,7 @@
   {#each $lst as job}
     <article>
       <span>{job.id}</span>
+      <!-- svelte-ignore a11y-missing-attribute -->
       <h2><a>{job.jobtitle}</a></h2>
       <p class="meta">by {job.company}</p>
     </article>
