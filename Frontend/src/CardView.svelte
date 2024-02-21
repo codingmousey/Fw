@@ -15,7 +15,7 @@
     <div class="card" on:click={() => handleDivClick(i)}>
       <div class="detail">
         <h3>{i.jobtitle}</h3>
-        <p>{i.company} in {i.address}</p>
+        <p>{i.company} in {i.addres}</p>
         <div>
           <!-- The tags are shown as buttons that can be clicked to select them as filters -->
           {#each i.tags as tag}
