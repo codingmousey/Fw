@@ -1,13 +1,37 @@
 package ali.trabi.finalwork.backend.controller;
 
+import ali.trabi.finalwork.backend.dao.LoginDAO;
+import ali.trabi.finalwork.backend.entity.Login;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.PathVariable;
+import java.util.Objects;
+import java.util.List;
 
 @RestController
 public class LoginController {
 
+    private final LoginDAO db;
+
+    @Autowired
+    public LoginController(LoginDAO db) {
+        this.db = db;
+    }
+
     @GetMapping("/login")
     public String login() {
         return "Login API call success";
+    }
+
+    @GetMapping("/getLogins")
+    public List<Login> getAllLogins() {
+        return db.findAll();
+    }
+
+    @GetMapping("/login/{id}")
+    public Login getLoginById(@PathVariable Integer id) {
+        Login login = db.findById(id);
+        return (Login) Objects.requireNonNullElse(login, "login with specific id not found");
     }
 }
