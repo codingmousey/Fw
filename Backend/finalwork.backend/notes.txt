@@ -1,1 +1,2 @@
 Notes for myself during the backend development for fw
+'random change to see if i can commit with intellij instead of vscode'
