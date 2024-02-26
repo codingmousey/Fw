@@ -10,4 +10,8 @@ public class Login {
     LocalDateTime lastLogin;
     AccountType accountType;
 
+    public Integer getId() {
+        return id;
+    }
+
 }
