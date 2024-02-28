@@ -1,9 +1,8 @@
 package ali.trabi.finalwork.backend.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
+
+import java.util.List;
 
 @Entity
 public class City {
@@ -14,6 +13,8 @@ public class City {
     String name;
     Double x_value;
     Double y_value;
+    @OneToMany(mappedBy = "city")
+    private List<JobListing> jobListings;
 
     public City() {
     }
