@@ -31,4 +31,10 @@ public class LoginDAO {
         return null;
     }
 
+    public void create(Login l){
+        LocalDateTime currentDateTime = LocalDateTime.now();
+        l.setId(loginLst.size() + 1);
+        l.setLastLogin(currentDateTime);
+        loginLst.add(l);
+    }
 }
