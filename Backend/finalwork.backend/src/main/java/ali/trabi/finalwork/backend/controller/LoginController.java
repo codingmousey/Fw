@@ -4,59 +4,57 @@ import ali.trabi.finalwork.backend.dao.LoginDAO;
 import ali.trabi.finalwork.backend.entity.Login;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Objects;
 import java.util.List;
+import java.util.Optional;
 
-@RestController
-@CrossOrigin
+@Controller
+@RequestMapping("/api")
 public class LoginController {
-
-    private final LoginDAO db;
+    private final LoginDAO loginDAO;
 
     @Autowired
-    public LoginController(LoginDAO db) {
-        this.db = db;
+    public LoginController(LoginDAO loginDAO) {
+        this.loginDAO = loginDAO;
     }
 
-    @GetMapping("/login")
-    public String login() {
-        return "Login API call success";
+    @GetMapping("/all")
+    @ResponseBody
+    public Iterable<Login> findAllLogins() {
+        return loginDAO.findAll();
     }
 
-    @GetMapping("/getLogins")
-    public List<Login> getAllLogins() {
-        return db.findAll();
+    @PostMapping("/add")
+    @ResponseBody
+    public HttpStatus insertLogin(@RequestBody Login login) {
+
+        loginDAO.save(login);
+        return HttpStatus.CREATED;
     }
 
-    @GetMapping("/login/{id}")
-    public Login getLoginById(@PathVariable Integer id) {
-        Login login = db.findById(id);
-        return (Login) Objects.requireNonNullElse(login, "login with specific id not found");
-    }
-
-    @ResponseStatus(HttpStatus.CREATED)
-    @PostMapping("/login/add")
-    public void createLogin(@RequestBody Login newLogin) {
-        db.create(newLogin);
-    }
-
-    @PutMapping("/login/update/{id}")
-    public void updateLogin(@RequestBody Login updatedLogin, @PathVariable Integer id) {
-        Login l = db.findById(id);
-        if (l != null) {
-            // Update the existing login with the updated login details
+    @PutMapping("/update/{id}")
+    @ResponseBody
+    public HttpStatus updateLogin(@RequestBody Login updatedLogin, @PathVariable Integer id) {
+        Optional<Login> exists = loginDAO.findById(id);
+        if (exists.isPresent()) {
+            Login l = exists.get();
             l.setEmail(updatedLogin.getEmail());
             l.setUsername(updatedLogin.getUsername());
             l.setUnsafePw(updatedLogin.getUnsafePw());
+            l.setLastLogin(updatedLogin.getLastLogin());
             l.setAccountType(updatedLogin.getAccountType());
-            db.update(l);
+            loginDAO.save(l);
+            return HttpStatus.OK;
+        } else {
+            return HttpStatus.NOT_FOUND;
         }
     }
-
-    @DeleteMapping("login/delete/{id}")
-    public void deleteLogin(@PathVariable Integer id){
-        db.delete(id);
+    @DeleteMapping("/delete/{id}")
+    @ResponseBody
+    public HttpStatus deleteLogin(@PathVariable Integer id){
+        loginDAO.deleteById(id);
+        return HttpStatus.OK;
     }
 }

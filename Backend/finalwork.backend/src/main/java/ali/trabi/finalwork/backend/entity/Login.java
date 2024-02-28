@@ -1,14 +1,24 @@
 package ali.trabi.finalwork.backend.entity;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
 import java.time.LocalDateTime;
 
+@Entity
 public class Login {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     Integer id;
     String email;
     String username;
     String unsafePw;
     LocalDateTime lastLogin;
     AccountType accountType;
+
+    public Login() {
+    }
 
     public Login(Integer id, String email, String username, String unsafePw, LocalDateTime lastLogin, AccountType accountType) {
         this.id = id;
