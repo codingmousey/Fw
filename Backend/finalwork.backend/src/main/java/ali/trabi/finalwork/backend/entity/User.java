@@ -23,6 +23,9 @@ public class User {
     @OneToMany(mappedBy = "user")
     private List<JobApplication> jobApplications;
 
+    @OneToMany(mappedBy = "user")
+    private List<Suggestion> suggestions;
+
     public User() {
     }
 
