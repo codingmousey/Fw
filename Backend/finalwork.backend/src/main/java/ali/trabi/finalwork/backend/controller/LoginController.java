@@ -40,4 +40,17 @@ public class LoginController {
     public void createLogin(@RequestBody Login newLogin) {
         db.create(newLogin);
     }
+
+    @PutMapping("/login/update/{id}")
+    public void updateLogin(@RequestBody Login updatedLogin, @PathVariable Integer id) {
+        Login l = db.findById(id);
+        if (l != null) {
+            // Update the existing login with the updated login details
+            l.setEmail(updatedLogin.getEmail());
+            l.setUsername(updatedLogin.getUsername());
+            l.setUnsafePw(updatedLogin.getUnsafePw());
+            l.setAccountType(updatedLogin.getAccountType());
+            db.update(l);
+        }
+    }
 }

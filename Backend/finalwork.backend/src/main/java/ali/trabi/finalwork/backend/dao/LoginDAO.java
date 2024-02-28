@@ -37,4 +37,13 @@ public class LoginDAO {
         l.setLastLogin(currentDateTime);
         loginLst.add(l);
     }
+
+    public void update(Login l) {
+        for (int i = 0; i < loginLst.size(); i++) {
+            if (loginLst.get(i).getId().equals(l.getId())) {
+                loginLst.set(i, l);
+                return;
+            }
+        }
+    }
 }
