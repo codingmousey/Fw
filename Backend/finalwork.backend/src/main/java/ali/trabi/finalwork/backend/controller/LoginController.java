@@ -10,6 +10,7 @@ import java.util.Objects;
 import java.util.List;
 
 @RestController
+@CrossOrigin
 public class LoginController {
 
     private final LoginDAO db;
