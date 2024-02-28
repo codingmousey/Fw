@@ -6,6 +6,9 @@ public class Login {
     Integer id;
     String email;
     String username;
+    String unsafePw;
+    LocalDateTime lastLogin;
+    AccountType accountType;
 
     public Login(Integer id, String email, String username, String unsafePw, LocalDateTime lastLogin, AccountType accountType) {
         this.id = id;
@@ -16,9 +19,6 @@ public class Login {
         this.accountType = accountType;
     }
 
-    String unsafePw;
-    LocalDateTime lastLogin;
-    AccountType accountType;
 
     public void setId(Integer id) {
         this.id = id;
