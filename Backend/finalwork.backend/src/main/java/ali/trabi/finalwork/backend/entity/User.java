@@ -2,6 +2,8 @@ package ali.trabi.finalwork.backend.entity;
 
 import jakarta.persistence.*;
 
+import java.util.List;
+
 @Entity
 @Table(name = "user_account")
 public class User {
@@ -15,6 +17,8 @@ public class User {
     private String cv;
     private boolean looking;
     private String role;
+    @OneToMany(mappedBy = "user")
+    private List<Subscription> subscriptions;
 
     public User() {
     }

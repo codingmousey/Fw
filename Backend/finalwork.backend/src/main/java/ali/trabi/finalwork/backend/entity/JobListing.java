@@ -3,6 +3,7 @@ package ali.trabi.finalwork.backend.entity;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 public class JobListing {
@@ -26,6 +27,9 @@ public class JobListing {
     @ManyToOne
     @JoinColumn(name = "city_id")
     private City city;
+
+    @OneToMany(mappedBy = "jobListing")
+    private List<Subscription> subscriptions;
 
     public JobListing() {
     }
