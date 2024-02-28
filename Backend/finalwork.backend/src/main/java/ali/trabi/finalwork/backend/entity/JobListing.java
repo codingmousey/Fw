@@ -31,6 +31,9 @@ public class JobListing {
     @OneToMany(mappedBy = "jobListing")
     private List<Subscription> subscriptions;
 
+    @OneToMany(mappedBy = "jobListing")
+    private List<JobApplication> jobApplications;
+
     public JobListing() {
     }
 

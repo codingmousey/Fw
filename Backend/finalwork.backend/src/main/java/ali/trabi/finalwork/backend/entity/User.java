@@ -20,6 +20,9 @@ public class User {
     @OneToMany(mappedBy = "user")
     private List<Subscription> subscriptions;
 
+    @OneToMany(mappedBy = "user")
+    private List<JobApplication> jobApplications;
+
     public User() {
     }
 
