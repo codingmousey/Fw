@@ -53,4 +53,9 @@ public class LoginController {
             db.update(l);
         }
     }
+
+    @DeleteMapping("login/delete/{id}")
+    public void deleteLogin(@PathVariable Integer id){
+        db.delete(id);
+    }
 }

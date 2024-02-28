@@ -46,4 +46,10 @@ public class LoginDAO {
             }
         }
     }
+    public void delete(Integer id) {
+        Login l = findById(id);
+        if (l != null) {
+            loginLst.remove(l);
+        }
+    }
 }
