@@ -12,10 +12,19 @@
   import Modal from "./Modal.svelte";
   import Profile from "./Profile.svelte";
   import Register from "./Register.svelte";
+  import { onMount } from "svelte";
+  import {getCookie} from './Helpers.svelte';
   let current_item;
   let signedIn = false;
   let username = "";
   $: console.log("signedIn NOW is : " + signedIn);
+
+  onMount(() => {
+    const userIDCookie = getCookie("userIdForSession");
+    if (userIDCookie) {
+      signedIn = userIDCookie;
+    }
+  });
 
   const listenAdd = (e) => {
     console.log(e.detail);
@@ -34,7 +43,10 @@
   };
 
   const handleSignOut = () => {
+    console.log('handling signout xd!!!');
+    console.log('logout clicked');
     console.log("user signed out");
+    document.cookie = "userIdForSession=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
     username = "";
     signedIn = false;
     console.log("signedIn: " + signedIn);

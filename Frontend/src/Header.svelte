@@ -1,6 +1,9 @@
 <!-- Scripts -->
 <script>
   import Navbar from "./Navbar.svelte";
+  import { createEventDispatcher } from "svelte";
+  const dispatch = createEventDispatcher();
+  import { getCookie } from "./Helpers.svelte";
 
   let arr = [
     // array with the navbar items
@@ -9,7 +12,7 @@
     "Post Junior Job",
     "My Profile",
     "Statistics",
-    "Register"
+    "Register",
   ];
 
   export let current_item = arr[0]; // starting with the Homepage being highlighted
@@ -17,15 +20,22 @@
   export let username = "";
 
   const customEventListen_clickNavItem = (e) => {
+    console.log("clicked on : " + e.detail);
     current_item = e.detail; // change the current_item to whichever was clicked
   };
 
-  $: if (signedIn) {
-    arr = arr.filter((item) => item !== "Sign In");
-    arr.push("Sign Out");
-  } else {
-    arr = arr.filter((item) => item !== "Sign Out");
-    arr.push("Sign In");
+  $: {
+    if (signedIn) {
+      arr = arr.filter((item) => item !== "Sign In");
+      arr.push("Sign Out");
+      arr = arr.filter((item) => item !== "Register");
+    } else {
+      arr = arr.filter((item) => item !== "Sign Out");
+      if (!arr.includes("Register")) {
+        arr.push("Register");
+      }
+      arr.push("Sign In");
+    }
   }
 </script>
 
@@ -40,6 +50,7 @@
     {current_item}
     {signedIn}
     on:customEvent_clickNavItem={customEventListen_clickNavItem}
+    on:signOut
   />
   {#if signedIn && username !== ""}
     <div>Welcome {username}!</div>

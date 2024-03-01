@@ -25,6 +25,9 @@
           obj.error = res.error;
           console.log("there are some erros: " + res.error);
         } else {
+          console.log("user: " + res.id);
+          console.log("username: " + res.username);
+          document.cookie = `userIdForSession=${res.id}; path=/;`;
           dispatch("signIn", {
             username: obj.username,
           });
