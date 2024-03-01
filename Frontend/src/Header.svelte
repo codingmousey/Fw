@@ -9,6 +9,7 @@
     "Post Junior Job",
     "My Profile",
     "Statistics",
+    "Register"
   ];
 
   export let current_item = arr[0]; // starting with the Homepage being highlighted

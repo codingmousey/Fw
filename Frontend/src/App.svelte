@@ -11,6 +11,7 @@
   import ListView from "./ListView.svelte";
   import Modal from "./Modal.svelte";
   import Profile from "./Profile.svelte";
+  import Register from "./Register.svelte";
   let current_item;
   let signedIn = false;
   let username = "";
@@ -126,6 +127,8 @@
     <Profile />
   {:else if current_item === "Statistics"}
     <div><h2>Here comes some interesting statistics</h2></div>
+  {:else if current_item === "Register"}
+    <Register/>
   {:else if current_item === "Sign In"}
     <Login on:signIn={handleSignIn} />
   {/if}
