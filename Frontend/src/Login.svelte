@@ -4,19 +4,40 @@
   const dispatch = createEventDispatcher();
   let obj = {
     username: "",
-    pw: ""
+    pw: "",
+    error: "",
   };
 
-  const customSubmitHandler = () => {
-    console.log('login customSubmitHandler: ' + obj);
-    const userInfo = { username: obj.username };
-    console.log('userInfo obj: ' + userInfo);
-    console.log('userInfo.username: ' + userInfo.username);
-    dispatch('signIn', userInfo);
+  const loginHandler = async () => {
+    console.log("loginHander clicker: " + obj);
+    try {
+      const response = await fetch("http://localhost:6969/api/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(obj),
+      });
+
+      if (response) {
+        const res = await response.json();
+        if (res.error) {
+          obj.error = res.error;
+          console.log("there are some erros: " + res.error);
+        } else {
+          dispatch("signIn", {
+            username: obj.username,
+          });
+        }
+      }
+    } catch (error) {
+      console.error("error loggin in:", error.message);
+    }
   };
 </script>
 
-<form on:submit|preventDefault={customSubmitHandler}>
+<form on:submit|preventDefault={loginHandler}>
+  <div class="error">{obj.error}</div>
   <div class="form-field">
     <label for="username">Username:</label>
     <input type="text" id="username" bind:value={obj.username} />
@@ -48,5 +69,10 @@
   label {
     margin: 10px auto;
     text-align: left;
+  }
+
+  .error {
+    color: red;
+    margin-top: 5px;
   }
 </style>
