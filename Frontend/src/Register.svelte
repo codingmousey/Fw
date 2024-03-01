@@ -1,5 +1,8 @@
 <script>
   import Button from "./Button.svelte";
+  import { createEventDispatcher } from "svelte";
+
+  const dispatch = createEventDispatcher();
 
   let obj = {
     username: "",
@@ -36,6 +39,7 @@
           obj.pw = "";
           obj.pwCheck = "";
           obj.error = "";
+          dispatch("registerSuccess");
         }
       }
     } catch (error) {

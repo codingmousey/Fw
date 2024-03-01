@@ -60,6 +60,10 @@
     console.log("item : " + item);
     toggleModal();
   }
+
+  const handleRegisterSuccess = () => {
+    current_item = "Sign In";
+  };
 </script>
 
 <!-- Scripts -->
@@ -128,7 +132,7 @@
   {:else if current_item === "Statistics"}
     <div><h2>Here comes some interesting statistics</h2></div>
   {:else if current_item === "Register"}
-    <Register/>
+    <Register on:registerSuccess={handleRegisterSuccess}/>
   {:else if current_item === "Sign In"}
     <Login on:signIn={handleSignIn} />
   {/if}
