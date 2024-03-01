@@ -8,7 +8,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-
 import java.util.HashMap;
 import java.util.Map;
 
@@ -91,6 +90,11 @@ public class API {
 
             if (passwordEncoder.matches(pw, user.getPasswordHash())) {
                 responseData.put("message", "login successful");
+                responseData.put("id", String.valueOf(user.getId()));
+                responseData.put("username", user.getUsername());
+                responseData.put("email", user.getEmail());
+                responseData.put("role", user.getRole());
+                System.out.println("responseData: " + responseData);
                 return ResponseEntity.ok(responseData);
             }
         }
