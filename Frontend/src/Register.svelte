@@ -7,6 +7,7 @@
   let obj = {
     firstName: "",
     lastName: "",
+    username: "",
     email: "",
     pw: "",
     pwCheck: "",
@@ -34,6 +35,7 @@
           console.log("registration success:", res);
           obj.firstName = "";
           obj.lastName = "",
+          obj.username = "",
           obj.email = "";
           obj.email = "";
           obj.pwCheck = "";
@@ -50,15 +52,19 @@
 <form on:submit|preventDefault={registerHandler}>
   <div class="error">{obj.error}</div>
   <div class="form-field">
-    <label for="username">First name:</label>
+    <label for="firstName">First name:</label>
     <input type="text" id="firstName" bind:value={obj.firstName} />
   </div>
   <div class="form-field">
-    <label for="username">Last name:</label>
+    <label for="lastName">Last name:</label>
     <input type="text" id="lastName" bind:value={obj.lastName} />
   </div>
   <div class="form-field">
-    <label for="username">Email:</label>
+    <label for="username">Username:</label>
+    <input type="text" id="username" bind:value={obj.username} />
+  </div>
+  <div class="form-field">
+    <label for="email">Email:</label>
     <input type="text" id="email" bind:value={obj.email} />
   </div>
   <div class="form-field">

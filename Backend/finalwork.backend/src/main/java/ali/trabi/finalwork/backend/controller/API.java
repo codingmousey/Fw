@@ -32,6 +32,7 @@ public class API {
         System.out.println("register request: " + registerData);
         String firstName = registerData.get("firstName");
         String lastName = registerData.get("lastName");
+        String username = registerData.get("username");
         String email = registerData.get("email");
         String pw = registerData.get("pw");
         String pwCheck = registerData.get("pwCheck");
@@ -50,6 +51,10 @@ public class API {
             responseData.put("error", "first name cant be empty");
         } else if (lastName == null || lastName.isEmpty()) {
             responseData.put("error", "last name cant be empty");
+        } else if (username == null || username.isEmpty()) {
+            responseData.put("error", "username cant be empty");
+        } else if (username.length() < 10 ) {
+            responseData.put("error", "username must be atleast 10 cahracters long");
         } else {
             String encryptedPw = passwordEncoder.encode(pw);
             User user = new User();
