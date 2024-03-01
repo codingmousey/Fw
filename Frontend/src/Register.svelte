@@ -5,7 +5,9 @@
   const dispatch = createEventDispatcher();
 
   let obj = {
-    username: "",
+    firstName: "",
+    lastName: "",
+    email: "",
     pw: "",
     pwCheck: "",
     error: "",
@@ -13,19 +15,14 @@
 
   const registerHandler = async () => {
     console.log("register button clicked");
-    const registerData = {
-      username: obj.username,
-      pw: obj.pw,
-      pwCheck: obj.pwCheck,
-    };
 
     try {
-      const response = await fetch("http://localhost:6969/api/register", {
+      const response = await fetch("http://localhost:6969/api/users/register", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(registerData),
+        body: JSON.stringify(obj),
       });
 
       if (response) {
@@ -35,8 +32,10 @@
           console.log("there are some erros: " + res.error);
         } else {
           console.log("registration success:", res);
-          obj.username = "";
-          obj.pw = "";
+          obj.firstName = "";
+          obj.lastName = "",
+          obj.email = "";
+          obj.email = "";
           obj.pwCheck = "";
           obj.error = "";
           dispatch("registerSuccess");
@@ -51,8 +50,16 @@
 <form on:submit|preventDefault={registerHandler}>
   <div class="error">{obj.error}</div>
   <div class="form-field">
-    <label for="username">Username:</label>
-    <input type="text" id="username" bind:value={obj.username} />
+    <label for="username">First name:</label>
+    <input type="text" id="firstName" bind:value={obj.firstName} />
+  </div>
+  <div class="form-field">
+    <label for="username">Last name:</label>
+    <input type="text" id="lastName" bind:value={obj.lastName} />
+  </div>
+  <div class="form-field">
+    <label for="username">Email:</label>
+    <input type="text" id="email" bind:value={obj.email} />
   </div>
   <div class="form-field">
     <label for="pw">Password:</label>
