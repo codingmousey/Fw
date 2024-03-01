@@ -17,7 +17,7 @@
     console.log("register button clicked");
 
     try {
-      const response = await fetch("http://localhost:6969/api/users/register", {
+      const response = await fetch("http://localhost:6969/api/register", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
