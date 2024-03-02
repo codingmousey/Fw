@@ -36,7 +36,7 @@ async function fetchJobListings() {
         const response = await fetch("http://localhost:6969/api/joblistings");
         const data = await response.json();
         jobListings.set(data);
-        console.log('joblistings data:', JSON.stringify(data, null, 2));
+       // console.log('joblistings data:', JSON.stringify(data, null, 2));
     } catch (error) {
         console.error("Error fetching job listings:", error);
       }
