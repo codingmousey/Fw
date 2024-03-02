@@ -1,6 +1,8 @@
 package ali.trabi.finalwork.backend.controller;
 
+import ali.trabi.finalwork.backend.dao.JobListingDAO;
 import ali.trabi.finalwork.backend.dao.UserDAO;
+import ali.trabi.finalwork.backend.entity.JobListing;
 import ali.trabi.finalwork.backend.entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -8,6 +10,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+
+import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -19,11 +23,13 @@ public class API {
     // alle DAO's
     private final UserDAO userDAO;
     private final BCryptPasswordEncoder passwordEncoder;
+    private final JobListingDAO jobListingDAO;
 
     @Autowired
-    public API(UserDAO userDAO, BCryptPasswordEncoder passwordEncoder) {
+    public API(UserDAO userDAO, BCryptPasswordEncoder passwordEncoder, JobListingDAO jobListingDAO) {
         this.userDAO = userDAO;
         this.passwordEncoder = passwordEncoder;
+        this.jobListingDAO = jobListingDAO;
     }
 
     // registering a new user
@@ -100,5 +106,37 @@ public class API {
         }
         responseData.put("error", "invalid username or password");
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(responseData);
+    }
+
+
+    // get all joblistings
+    @GetMapping("/joblistings")
+    @ResponseBody
+    public Iterable<JobListing> findAllLJobListings(){
+        return jobListingDAO.findAll();
+    }
+
+    @GetMapping("/langById/{id}")
+    @ResponseBody
+    public Iterable<String> findLangById(@PathVariable Integer id){
+        return jobListingDAO.findProgrammingLanguagesByCompanyId(id);
+    }
+
+    // add a new job listing
+    @PostMapping("/add_joblisting")
+    @ResponseBody
+    public HttpStatus insertJobListing(@RequestBody JobListing jobListing) {
+        System.out.println("add joblisting api call called");
+        System.out.println("joblisting : " + jobListing);
+        Integer companyId = jobListing.getCompanyId();
+        System.out.println("companyID: " + companyId);
+
+        // Set the extracted company ID in the JobListing object
+        jobListing.setCompanyId(companyId);
+        System.out.println("joblisting : " + jobListing);
+        jobListing.setCreatedDate(LocalDateTime.now());
+
+        jobListingDAO.save(jobListing);
+        return HttpStatus.CREATED;
     }
 }

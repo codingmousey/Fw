@@ -13,20 +13,16 @@ public class JobListing {
 
     private String name;
     private String description;
-    private String programmingLanguages;
-    private String technologies;
+    @ElementCollection
+    private List<String> programmingLanguages;
     private String status;
     private String country;
     private LocalDateTime createdDate;
     private LocalDateTime updatedDate;
 
-    @ManyToOne
-    @JoinColumn(name = "company_id")
-    private Company company;
+    private Integer companyId;
 
-    @ManyToOne
-    @JoinColumn(name = "city_id")
-    private City city;
+    private String city;
 
     @OneToMany(mappedBy = "jobListing")
     private List<Subscription> subscriptions;
@@ -40,17 +36,16 @@ public class JobListing {
     public JobListing() {
     }
 
-    public JobListing(Integer id, String name, String description, String programmingLanguages, String technologies, String status, String country, LocalDateTime createdDate, LocalDateTime updatedDate, Company company, City city) {
+    public JobListing(Integer id, String name, String description, List<String> programmingLanguages, String status, String country, LocalDateTime createdDate, LocalDateTime updatedDate, Integer companyId, String city) {
         this.id = id;
         this.name = name;
         this.description = description;
         this.programmingLanguages = programmingLanguages;
-        this.technologies = technologies;
         this.status = status;
         this.country = country;
         this.createdDate = createdDate;
         this.updatedDate = updatedDate;
-        this.company = company;
+        this.companyId = companyId;
         this.city = city;
     }
 
@@ -78,20 +73,12 @@ public class JobListing {
         this.description = description;
     }
 
-    public String getProgrammingLanguages() {
+    public List<String> getProgrammingLanguages() {
         return programmingLanguages;
     }
 
-    public void setProgrammingLanguages(String programmingLanguages) {
+    public void setProgrammingLanguages(List<String> programmingLanguages) {
         this.programmingLanguages = programmingLanguages;
-    }
-
-    public String getTechnologies() {
-        return technologies;
-    }
-
-    public void setTechnologies(String technologies) {
-        this.technologies = technologies;
     }
 
     public String getStatus() {
@@ -126,19 +113,33 @@ public class JobListing {
         this.updatedDate = updatedDate;
     }
 
-    public Company getCompany() {
-        return company;
+    public Integer getCompanyId() {
+        return companyId;
     }
 
-    public void setCompany(Company company) {
-        this.company = company;
+    public void setCompanyId(Integer company) {
+        this.companyId = company;
     }
 
-    public City getCity() {
+    public String getCity() {
         return city;
     }
 
-    public void setCity(City city) {
+    public void setCity(String city) {
         this.city = city;
+    }
+    @Override
+    public String toString() {
+        return "JobListing{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", description='" + description + '\'' +
+                ", programmingLanguages=" + programmingLanguages +
+                ", companyId=" + companyId +
+                ", city=" + city +
+                ", country='" + country + '\'' +
+                ", createdDate=" + createdDate +
+                ", updatedDate=" + updatedDate +
+                '}';
     }
 }
