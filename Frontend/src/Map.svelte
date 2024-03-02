@@ -38,7 +38,7 @@
                 radius: 2000,
               })
                 .addTo(map)
-                .bindPopup(i.jobtitle);
+                .bindPopup(i.name);
             } else {
               console.log("No geodata found");
             }
