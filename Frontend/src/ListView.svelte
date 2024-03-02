@@ -9,7 +9,7 @@
       <span>{i.id}</span>
       <!-- svelte-ignore a11y-missing-attribute -->
       <h2><a>{i.name}</a></h2>
-      <p class="meta">by company with id:  {i.compantId}</p>
+      <p class="meta">by company with id:  {i.companyId}</p>
     </article>
   {/each}
 </div>
