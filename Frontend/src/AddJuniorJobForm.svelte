@@ -1,27 +1,38 @@
 <script>
   import { createEventDispatcher } from "svelte";
   import Button from "./Button.svelte";
-  import { lst } from "./db.js";
+  import { getCookie } from "./Helpers.svelte";
 
   let dispatch = createEventDispatcher();
 
-  let obj = {
-    company: "",
-    jobtitle: "",
-    addres: "",
-    tags: [],
+  let jobListing = {
+    name: "",
+    description: "",
+    programmingLanguages: "",
+    city: "",
+    country: "Belgium",
+    companyId: getCookie("userIdForSession"),
   };
 
-  const customSubmitHandler = () => {
-    let lst_tags = obj.tags.split(",").map((tag) => tag.trim());
-    console.log("obj");
+  const customSubmitHandler = async () => {
+    let programmingLanguages = jobListing.programmingLanguages
+      .split(",")
+      .map((lang) => lang.trim());
+
     let juniorJob = {
-      ...obj,
-      id: Math.floor(Math.random() * 90) + 10,
-      tags: lst_tags,
+      ...jobListing,
+      programmingLanguages,
     };
-    lst.update((conData) => {
-      return [juniorJob, ...conData];
+
+    console.log("add new job submitted");
+    console.log("data sent to backend:", juniorJob);
+
+    await fetch("http://localhost:6969/api/add_joblisting", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(juniorJob),
     });
     dispatch("add");
   };
@@ -29,20 +40,30 @@
 
 <form on:submit|preventDefault={customSubmitHandler}>
   <div class="form-field">
-    <label for="company">Company:</label>
-    <input type="text" id="company" bind:value={obj.company} />
+    <label for="name">Title:</label>
+    <input type="text" id="name" bind:value={jobListing.name} />
   </div>
   <div class="form-field">
-    <label for="jobtitle">Jobtitle:</label>
-    <input type="text" id="jobtitle" bind:value={obj.jobtitle} />
+    <label for="description">Description:</label>
+    <input type="text" id="description" bind:value={jobListing.description} />
   </div>
   <div class="form-field">
-    <label for="addres">Addres:</label>
-    <input type="text" id="addres" bind:value={obj.addres} />
+    <label for="programmingLanguages"
+      >Programming Languages (separated by comma):</label
+    >
+    <input
+      type="text"
+      id="programmingLanguages"
+      bind:value={jobListing.programmingLanguages}
+    />
   </div>
   <div class="form-field">
-    <label for="tags">Tags (separate by comma):</label>
-    <input type="text" id="tags" bind:value={obj.tags} />
+    <label for="city">City:</label>
+    <input type="text" id="city" bind:value={jobListing.city} />
+  </div>
+  <div class="form-field">
+    <label for="country">Country:</label>
+    <input type="text" id="country" bind:value={jobListing.country} />
   </div>
   <Button>Add Junior Job</Button>
 </form>

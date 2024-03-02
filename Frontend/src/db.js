@@ -27,3 +27,20 @@ export const lst = writable([
 
 export const applications = writable([]);
 export const preferences = writable([]);
+
+
+export const jobListings = writable([]);
+async function fetchJobListings() {
+    try {
+      console.log('called api to get job listings');
+        const response = await fetch("http://localhost:6969/api/joblistings");
+        const data = await response.json();
+        jobListings.set(data);
+        console.log('joblistings data:', JSON.stringify(data, null, 2));
+    } catch (error) {
+        console.error("Error fetching job listings:", error);
+      }
+}
+
+fetchJobListings();
+

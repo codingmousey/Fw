@@ -1,14 +1,15 @@
 <script>
-  import { lst } from "./db.js";
+  import { jobListings } from "./db.js";
+
 </script>
 
 <div class="lst">
-  {#each $lst as i}
+  {#each $jobListings as i (i.id)}
     <article>
       <span>{i.id}</span>
       <!-- svelte-ignore a11y-missing-attribute -->
-      <h2><a>{i.jobtitle}</a></h2>
-      <p class="meta">by {i.company}</p>
+      <h2><a>{i.name}</a></h2>
+      <p class="meta">by company with id:  {i.compantId}</p>
     </article>
   {/each}
 </div>
