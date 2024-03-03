@@ -144,8 +144,7 @@ public class API {
     // get all prefs from a user
     @GetMapping("/prefs")
     @ResponseBody
-    public ResponseEntity<List<String>> getAllPreferences(@RequestBody Map<String, Integer> prefData) {
-        Integer userId = prefData.get("userId");
+    public ResponseEntity<List<String>> getAllPreferences(@RequestHeader("userId") Integer userId) {
         System.out.println("api called to get preferences for user with id: ' + userId");
         User user = userDAO.getUserById(userId);
         if (user != null) {
@@ -181,7 +180,7 @@ public class API {
     public ResponseEntity<String> deletePreference(@RequestBody Map<String, String> prefData) {
         Integer userId = Integer.parseInt(prefData.get("userId"));
         String pref = prefData.get("preference");
-        System.out.println("api called to delete pref: " + pref + " for user with id: ' + userId");
+        System.out.println("api called to delete pref: " + pref + " for user with id: " + userId);
         User user = userDAO.getUserById(userId);
         if (user != null) {
             List<String> preferences = user.getPreferences();
