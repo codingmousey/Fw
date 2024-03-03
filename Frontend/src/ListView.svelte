@@ -1,10 +1,10 @@
 <script>
-  import { jobListings } from "./db.js";
+  import { filteredJobListings } from "./db.js";
 
 </script>
 
 <div class="lst">
-  {#each $jobListings as i (i.id)}
+  {#each $filteredJobListings as i (i.id)}
     <article>
       <span>{i.id}</span>
       <!-- svelte-ignore a11y-missing-attribute -->
