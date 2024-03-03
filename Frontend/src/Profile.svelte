@@ -1,5 +1,6 @@
 <script>
-  import { applications, preferences } from "./db.js";
+  import {applications, fetchUserPrefs, deleteUserPref, addUserPref, prefs} from "./db.js";
+
   function removeApplication(id) {
     applications.update((apps) => apps.filter((app) => app !== id));
   }
@@ -8,26 +9,22 @@
   let showPreferences = false;
   let showMessage = false;
 
-  function addPreference() {
-    if (pref.trim() !== "") {
-      preferences.update((oldDbData) => [...oldDbData, pref.trim()]);
-      pref = "";
-      showMessage = true;
-      setTimeout(() => {
-        showMessage = false;
-      }, 1000);
+  async function addPreference() {
+    addUserPref(pref);
+    pref = "";
+    showMessage = true;
+    setTimeout(() => {
+      showMessage = false;
+    }, 1000);
+  }
+
+  async function togglePreferences() {
+    showPreferences = !showPreferences;
+    if (showPreferences) {
+      await fetchUserPrefs();
     }
   }
 
-  function removePreference(indexToRemove) {
-    preferences.update((prefs) =>
-      prefs.filter((_, index) => index !== indexToRemove)
-    );
-  }
-
-  function togglePreferences() {
-    showPreferences = !showPreferences;
-  }
   let yes = false;
 </script>
 
@@ -45,6 +42,7 @@
       {/each}
     </ul>
   </div>
+
   <div class="column">
     <h2>My preferences</h2>
     <div>
@@ -67,10 +65,10 @@
     {#if showPreferences}
       <div>
         <ul>
-          {#each $preferences as pref, i}
+          {#each $prefs as pref, i}
             <li>
               {pref}
-              <button id="removeButton2" on:click={() => removePreference(i)}
+              <button id="removeButton2" on:click={() => deleteUserPref(pref)}
                 >Remove</button
               >
             </li>
@@ -94,6 +92,7 @@
 
     <button class="toggleButton" disabled={!yes}> Subscribe </button>
   </div>
+
   <div class="column">
     <h2>My resume:</h2>
     <label for="avatar">Upload my CV:</label>

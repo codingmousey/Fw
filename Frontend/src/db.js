@@ -1,6 +1,6 @@
 // db.js
 import { writable } from "svelte/store";
-
+import { getCookie } from "./Helpers.svelte";
 export const lst = writable([
   {
     id: 1,
@@ -26,21 +26,81 @@ export const lst = writable([
 ]);
 
 export const applications = writable([]);
-export const preferences = writable([]);
 export const jobListings = writable([]);
 export const filteredJobListings = writable([]);
+export const prefs = writable([]);
+
 async function fetchJobListings() {
-    try {
-      console.log('called api to get job listings');
-        const response = await fetch("http://localhost:6969/api/joblistings");
-        const data = await response.json();
-        jobListings.set(data);
-        filteredJobListings.set(data);
-       // console.log('joblistings data:', JSON.stringify(data, null, 2));
-    } catch (error) {
-        console.error("Error fetching job listings:", error);
-      }
+  try {
+    console.log("called api to get job listings");
+    const response = await fetch("http://localhost:6969/api/joblistings");
+    const data = await response.json();
+    jobListings.set(data);
+    filteredJobListings.set(data);
+    // console.log('joblistings data:', JSON.stringify(data, null, 2));
+  } catch (error) {
+    console.error("error fetching job listings:", error);
+  }
 }
 
 fetchJobListings();
 
+export async function fetchUserPrefs() {
+  try {
+    console.log("fetching user prefs! XD");
+    const response = await fetch(`http://localhost:6969/api/prefs`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        userId: getCookie("userIdForSession"),
+      },
+    });
+    const data = await response.json();
+    console.log("data from prefs api: " + data);
+    prefs.set(data);
+  } catch (error) {
+    console.error("error fetching user prefs:", error);
+  }
+}
+
+export async function addUserPref(pref) {
+  let prefLocally = pref.trim();
+  if (prefLocally !== "") {
+    try {
+      await fetch(`http://localhost:6969/api/prefs`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          userId: getCookie("userIdForSession"),
+          preference: prefLocally,
+        }),
+      });
+      prefs.update((oldPrefs) => [...oldPrefs, prefLocally]);
+    } catch (error) {
+      console.error("error adding user pref:", error);
+    }
+  }
+}
+
+export async function deleteUserPref(pref) {
+  console.warn("deleteUserPref called with param: " + pref);
+  try {
+    await fetch(`http://localhost:6969/api/prefs`, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        userId: getCookie("userIdForSession"),
+        preference: pref,
+      }),
+    });
+    prefs.update((oldPrefs) => {
+      return oldPrefs.filter((i) => i !== pref);
+    });
+  } catch (error) {
+    console.error("error deleting user pref:", error);
+  }
+}
