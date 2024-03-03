@@ -2,6 +2,7 @@
 <script>
   import Button from "./Button.svelte";
   import { jobListings } from "./db.js";
+  import { filteredJobListings } from "./db.js";
   import { derived } from "svelte/store";
   /* https://eternaldev.com/blog/introduction-to-svelte-derived-store */
   /* https://stackoverflow.com/questions/1960473/get-all-unique-values-in-a-javascript-array-remove-duplicates */
@@ -21,12 +22,14 @@
   let language = "";
   let location = "";
 
-  let filteredJobs = [];
   function handleSearch() {
-    console.log("search button clicked");
-    console.log(language);
-    console.log(location);
-    filteredJobs = $jobListings.filter((i) => {
+    console.log(
+      "search button clicked with chosen language: " +
+        language +
+        " and chosen location: " +
+        location
+    );
+    const filteredJobs = $jobListings.filter((i) => {
       /* https://d7k.medium.com/js-includes-vs-some-b3cd546a7bc3 */
       const filterLanguage =
         !language ||
@@ -37,8 +40,8 @@
         !location || i.city.toLowerCase().includes(location.toLowerCase());
       return filterLanguage && filterLocation;
     });
-    console.log("filtered jobs:", filteredJobs);
-    alert(JSON.stringify(filteredJobs, null, 2));
+    console.log("filtered jobs:", JSON.stringify(filteredJobs, null, 2));
+    filteredJobListings.set(filteredJobs);
   }
 </script>
 

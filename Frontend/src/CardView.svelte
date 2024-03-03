@@ -1,6 +1,6 @@
 <script>
   import Button from "./Button.svelte";
-  import { jobListings } from "./db.js";
+  import { filteredJobListings } from "./db.js";
   import { createEventDispatcher } from "svelte";
   const dispatch = createEventDispatcher();
   function handleDivClick(i) {
@@ -10,7 +10,7 @@
 </script>
 
 <div class="div">
-  {#each $jobListings as i (i.id)}
+  {#each $filteredJobListings as i (i.id)}
     <!-- svelte-ignore a11y-click-events-have-key-events -->
     <div class="card" on:click={() => handleDivClick(i)}>
       <div class="detail">
