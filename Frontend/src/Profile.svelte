@@ -82,10 +82,10 @@
         </ul>
       </div>
     {/if}
-    <br /><br />
-    <label>
+    <!-- <br/><br/>
+    <label>-->
       <!-- https://svelte.dev/examples/checkbox-inputs -->
-      <input type="email" placeholder="Enter email" /><br />
+      <!-- <input type="email" placeholder="Enter email" /><br />
       <input type="checkbox" bind:checked={yes} />
       Yes, send me an email update!
     </label>
@@ -96,7 +96,7 @@
       <p>Check the checkbox to confirm.</p>
     {/if}
 
-    <button class="toggleButton" disabled={!yes}> Subscribe </button>
+    <button class="toggleButton" disabled={!yes}> Subscribe </button> -->
   </div>
 
   <div class="column">
