@@ -1,19 +1,23 @@
 <!-- Scripts -->
 <script>
   import Button from "./Button.svelte";
-  import { lst } from "./db.js";
+  import { jobListings } from "./db.js";
   import { derived } from "svelte/store";
   /* https://eternaldev.com/blog/introduction-to-svelte-derived-store */
   /* https://stackoverflow.com/questions/1960473/get-all-unique-values-in-a-javascript-array-remove-duplicates */
 
-  const languages = derived(lst, ($lst) => {
-    const tags = $lst.map((i) => i.tags).flat();
-    return [...new Set(tags)];
+  const languages = derived(jobListings, ($jobListings) => {
+    const languages = $jobListings.map((i) => i.programmingLanguages).flat();
+    console.log("languages: " + languages);
+    return [...new Set(languages)];
   });
 
-  const locations = derived(lst, ($lst) => {
-    return [...new Set($lst.map((i) => i.addres))];
+  const locations = derived(jobListings, ($jobListings) => {
+    const locations = $jobListings.map((i) => i.city).flat();
+    console.log("locations: " + locations);
+    return [...new Set(locations)];
   });
+
   let language = "";
   let location = "";
 
@@ -22,15 +26,15 @@
     console.log("search button clicked");
     console.log(language);
     console.log(location);
-    filteredJobs = $lst.filter((i) => {
+    filteredJobs = $jobListings.filter((i) => {
       /* https://d7k.medium.com/js-includes-vs-some-b3cd546a7bc3 */
       const filterLanguage =
         !language ||
-        i.tags.some((tag) =>
+        i.programmingLanguages.some((tag) =>
           tag.toLowerCase().includes(language.toLowerCase())
         );
       const filterLocation =
-        !location || i.addres.toLowerCase().includes(location.toLowerCase());
+        !location || i.city.toLowerCase().includes(location.toLowerCase());
       return filterLanguage && filterLocation;
     });
     console.log("filtered jobs:", filteredJobs);
