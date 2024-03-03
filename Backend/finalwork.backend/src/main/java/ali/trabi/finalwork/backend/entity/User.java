@@ -27,6 +27,11 @@ public class User {
     @OneToMany(mappedBy = "user")
     private List<Suggestion> suggestions;
 
+    @ElementCollection
+    @CollectionTable(name = "user_preferences", joinColumns = @JoinColumn(name = "user_id"))
+    @Column(name = "preference")
+    private List<String> preferences;
+
     public User() {
     }
 
@@ -110,5 +115,13 @@ public class User {
 
     public void setUsername(String username) {
         this.username = username;
+    }
+
+    public List<String> getPreferences() {
+        return preferences;
+    }
+
+    public void setPreferences(List<String> preferences) {
+        this.preferences = preferences;
     }
 }

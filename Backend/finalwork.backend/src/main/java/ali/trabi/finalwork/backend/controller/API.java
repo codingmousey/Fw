@@ -13,6 +13,7 @@ import org.springframework.http.ResponseEntity;
 
 import java.time.LocalDateTime;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Controller
@@ -112,13 +113,13 @@ public class API {
     // get all joblistings
     @GetMapping("/joblistings")
     @ResponseBody
-    public Iterable<JobListing> findAllLJobListings(){
+    public Iterable<JobListing> findAllLJobListings() {
         return jobListingDAO.findAll();
     }
 
     @GetMapping("/langById/{id}")
     @ResponseBody
-    public Iterable<String> findLangById(@PathVariable Integer id){
+    public Iterable<String> findLangById(@PathVariable Integer id) {
         return jobListingDAO.findProgrammingLanguagesByCompanyId(id);
     }
 
@@ -138,5 +139,60 @@ public class API {
 
         jobListingDAO.save(jobListing);
         return HttpStatus.CREATED;
+    }
+
+    // get all prefs from a user
+    @GetMapping("/prefs")
+    @ResponseBody
+    public ResponseEntity<List<String>> getAllPreferences(@RequestBody Map<String, Integer> prefData) {
+        Integer userId = prefData.get("userId");
+        System.out.println("api called to get preferences for user with id: ' + userId");
+        User user = userDAO.getUserById(userId);
+        if (user != null) {
+            List<String> preferences = user.getPreferences();
+            System.out.println("prefs sent success");
+            return ResponseEntity.ok(preferences);
+        }
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+    }
+
+    // add a new pref for a user
+    @PostMapping("/prefs")
+    @ResponseBody
+    public ResponseEntity<String> insertPreference(@RequestBody Map<String, String> prefData) {
+        Integer userId = Integer.parseInt(prefData.get("userId"));
+        System.out.println("api called to post a new pref for user with id: ' + userId");
+        String pref = prefData.get("preference");
+        User user = userDAO.getUserById(userId);
+        if (user != null) {
+            List<String> preferences = user.getPreferences();
+            preferences.add(pref);
+            user.setPreferences(preferences);
+            userDAO.save(user);
+            System.out.println("pref added success");
+            return ResponseEntity.ok("pref added success");
+        }
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+    }
+
+    // delete pref from a user
+    @DeleteMapping("/prefs")
+    @ResponseBody
+    public ResponseEntity<String> deletePreference(@RequestBody Map<String, String> prefData) {
+        Integer userId = Integer.parseInt(prefData.get("userId"));
+        String pref = prefData.get("preference");
+        System.out.println("api called to delete pref: " + pref + " for user with id: ' + userId");
+        User user = userDAO.getUserById(userId);
+        if (user != null) {
+            List<String> preferences = user.getPreferences();
+            if (preferences.contains(pref)) {
+                preferences.remove(pref);
+                user.setPreferences(preferences);
+                userDAO.save(user);
+                System.out.println("pref deleted success");
+                return ResponseEntity.ok("pref deleted success");
+            }
+        }
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
     }
 }

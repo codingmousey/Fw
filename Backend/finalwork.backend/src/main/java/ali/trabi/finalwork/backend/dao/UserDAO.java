@@ -5,4 +5,5 @@ import org.springframework.data.repository.CrudRepository;
 
 public interface UserDAO extends CrudRepository<User, Integer> {
     User getUserByUsername(String username);
+    User getUserById(Integer id);
 }
