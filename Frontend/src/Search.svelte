@@ -45,23 +45,32 @@
     filteredJobListings.set(filteredJobs);
   }
 
+  
+  function calculateMatches(job) {
+    let matchCount = 0;
+
+    for (const language of job.programmingLanguages) {
+      if ($prefs.includes(language.toLowerCase())) {
+        matchCount++;
+      }
+    }
+
+    for (const pref of $prefs) {
+      if (job.city.toLowerCase().includes(pref.toLowerCase())) {
+        matchCount++;
+        break;
+      }
+    }
+    return matchCount;
+  }
+
   async function handleLoadPreference() {
     console.log("loading preferences and triggering search");
     await fetchUserPrefs();
+    const filteredJobs = $jobListings
+      .filter((job) => calculateMatches(job) > 0)
+      .sort((a, b) => calculateMatches(b) - calculateMatches(a));
 
-    const filteredJobs = $jobListings.filter((i) => {
-      const filterLanguage =
-        !$prefs || $prefs.some((pref) => i.programmingLanguages.includes(pref));
-      const filterLocation =
-        !$prefs ||
-        $prefs.some((pref) =>
-          i.city.toLowerCase().includes(pref.toLowerCase())
-        );
-      console.log("filterLanguage: " + filterLanguage);
-      console.log("filterLocation: " + filterLocation);
-      return filterLanguage || filterLocation;
-      // return filterLanguage && filterLocation; voor 100% matching
-    });
     console.log("filtered jobs:", JSON.stringify(filteredJobs, null, 2));
     filteredJobListings.set(filteredJobs);
   }

@@ -26,6 +26,12 @@
   }
 
   let yes = false;
+
+  async function handlePressingEnter(e) {
+    if (e.key === "Enter") {
+      await addPreference();
+    }
+  }
 </script>
 
 <div class="container">
@@ -46,7 +52,7 @@
   <div class="column">
     <h2>My preferences</h2>
     <div>
-      <input type="text" bind:value={pref} placeholder="Enter Preference" />
+      <input type="text" bind:value={pref} placeholder="Enter Preference" on:keydown={handlePressingEnter}/>
       <button id="addButton" on:click={addPreference}>Add</button>
     </div>
 
