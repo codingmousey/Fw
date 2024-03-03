@@ -51,14 +51,17 @@
 
     const filteredJobs = $jobListings.filter((i) => {
       const filterLanguage =
-        !$prefs || i.programmingLanguages.some((tag) => $prefs.includes(tag));
+        !$prefs || $prefs.some((pref) => i.programmingLanguages.includes(pref));
       const filterLocation =
-        !$prefs || i.city.toLowerCase().includes(location.toLowerCase());
-        console.log("filterLanguage: " + filterLanguage);
-        console.log("filterLocation: " + filterLocation);
-      return filterLanguage && filterLocation;
+        !$prefs ||
+        $prefs.some((pref) =>
+          i.city.toLowerCase().includes(pref.toLowerCase())
+        );
+      console.log("filterLanguage: " + filterLanguage);
+      console.log("filterLocation: " + filterLocation);
+      return filterLanguage || filterLocation;
+      // return filterLanguage && filterLocation; voor 100% matching
     });
-
     console.log("filtered jobs:", JSON.stringify(filteredJobs, null, 2));
     filteredJobListings.set(filteredJobs);
   }
