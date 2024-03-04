@@ -11,4 +11,6 @@ public interface JobListingDAO extends CrudRepository<JobListing, Integer> {
 
     @Query("SELECT j.programmingLanguages FROM JobListing j WHERE j.companyId = :companyId")
     List<String> findProgrammingLanguagesByCompanyId(@Param("companyId") Integer companyId);
+
+    JobListing getJobListingById(Integer jobListingId);
 }

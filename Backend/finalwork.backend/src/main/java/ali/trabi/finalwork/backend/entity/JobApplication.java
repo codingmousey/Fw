@@ -1,5 +1,6 @@
 package ali.trabi.finalwork.backend.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
@@ -12,6 +13,8 @@ public class JobApplication {
 
     @ManyToOne
     @JoinColumn(name = "user_id")
+    // https://stackoverflow.com/questions/69396793/how-to-use-jsonignore-in-spring-boot-to-stop-infinite-loop
+    @JsonIgnore
     private User user;
 
     @ManyToOne

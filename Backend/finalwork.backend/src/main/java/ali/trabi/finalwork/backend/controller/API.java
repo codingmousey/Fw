@@ -1,9 +1,11 @@
 package ali.trabi.finalwork.backend.controller;
 
+import ali.trabi.finalwork.backend.dao.JobApplicationDAO;
 import ali.trabi.finalwork.backend.dao.JobListingDAO;
 import ali.trabi.finalwork.backend.dao.UserDAO;
 import ali.trabi.finalwork.backend.entity.JobListing;
 import ali.trabi.finalwork.backend.entity.User;
+import ali.trabi.finalwork.backend.entity.JobApplication;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -23,9 +25,7 @@ import java.util.Map;
 
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.File;
 import java.io.IOException;
-import java.util.Objects;
 
 @Controller
 @RequestMapping("/api")
@@ -38,12 +38,14 @@ public class API {
     private final UserDAO userDAO;
     private final BCryptPasswordEncoder passwordEncoder;
     private final JobListingDAO jobListingDAO;
+    private final JobApplicationDAO jobApplicationDAO;
 
     @Autowired
-    public API(UserDAO userDAO, BCryptPasswordEncoder passwordEncoder, JobListingDAO jobListingDAO) {
+    public API(UserDAO userDAO, BCryptPasswordEncoder passwordEncoder, JobListingDAO jobListingDAO, JobApplicationDAO jobApplicationDAO) {
         this.userDAO = userDAO;
         this.passwordEncoder = passwordEncoder;
         this.jobListingDAO = jobListingDAO;
+        this.jobApplicationDAO = jobApplicationDAO;
     }
 
     // registering a new user
@@ -244,6 +246,44 @@ public class API {
             } catch (IOException e) {
                 return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
             }
+        }
+    }
+
+    // adding a job application
+    @PostMapping("/apply")
+    @ResponseBody
+    public ResponseEntity<String> createJobApplication(@RequestBody Map<String, Object> requestBody) {
+        try {
+            Integer userId = (Integer) requestBody.get("userId");
+            Integer jobListingId = (Integer) requestBody.get("jobListingId");
+
+            User user = userDAO.getUserById(userId);
+            JobListing jobListing = jobListingDAO.getJobListingById(jobListingId);
+            JobApplication jobApplication = new JobApplication();
+            jobApplication.setUser(user);
+            jobApplication.setJobListing(jobListing);
+            jobApplication.setApplicationDate(LocalDateTime.now());
+            jobApplicationDAO.save(jobApplication);
+
+            return ResponseEntity.ok("application added success");
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("error adding application");
+        }
+    }
+
+    // getting job applications for a user
+    @PostMapping("/getUserJobApplications")
+    @ResponseBody
+    public ResponseEntity<List<JobApplication>> getUserJobApplicationsByUserId(@RequestHeader("userId") Integer userId) {
+        try {
+            List<JobApplication> jobApplications = jobApplicationDAO.getJobApplicationsByUserId(userId);
+            if (jobApplications.isEmpty()) {
+                return ResponseEntity.notFound().build();
+            } else {
+                return ResponseEntity.ok(jobApplications);
+            }
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
     }
 }
