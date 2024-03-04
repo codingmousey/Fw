@@ -7,7 +7,7 @@
     prefs,
     uploadCv,
   } from "./db.js";
-  import Button from './Button.svelte';
+  import Button from "./Button.svelte";
 
   function removeApplication(id) {
     applications.update((apps) => apps.filter((app) => app !== id));
@@ -16,6 +16,7 @@
   let pref = "";
   let showPreferences = false;
   let showMessage = false;
+  let showUploadMessage = false;
 
   async function addPreference() {
     addUserPref(pref);
@@ -55,6 +56,10 @@
     try {
       await uploadCv(file);
       console.log("cv sent success");
+      showUploadMessage = true;
+      setTimeout(() => {
+        showUploadMessage = false;
+      }, 1000);
     } catch (error) {
       console.error("errro sending cv:", error);
     }
@@ -132,9 +137,12 @@
   </div>
 
   <div class="column">
+    {#if showUploadMessage}
+      <p class="message">CV uploaded!</p>
+    {/if}
     <h2>My resume:</h2>
     <label for="avatar">Upload my CV:</label>
-    <input  type="file" on:change={handleCvChange} />
+    <input type="file" on:change={handleCvChange} />
     <Button on:click={handleCvUpload}>Upload</Button>
   </div>
 </div>
