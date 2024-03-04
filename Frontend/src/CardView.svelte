@@ -1,12 +1,25 @@
 <script>
   import Button from "./Button.svelte";
-  import { filteredJobListings } from "./db.js";
+  import {
+    filteredJobListings,
+    applications,
+    fetchJobApplications,
+  } from "./db.js";
   import { createEventDispatcher } from "svelte";
+  import { onMount } from "svelte";
   const dispatch = createEventDispatcher();
   function handleDivClick(i) {
     console.log("div clicked with id: " + i.id);
     dispatch("getIdFromDivClick", i);
   }
+
+  $: appliedJobIds = $applications.map(
+    (application) => application.jobListing.id
+  );
+
+  onMount(() => {
+    fetchJobApplications();
+  });
 </script>
 
 <div class="div">
@@ -14,7 +27,12 @@
     <!-- svelte-ignore a11y-click-events-have-key-events -->
     <div class="card" on:click={() => handleDivClick(i)}>
       <div class="detail">
-        <h3>{i.name}</h3>
+        <h3>
+          {i.name}
+          {#if appliedJobIds.includes(i.id)}
+            <span style="color: green; font-size: 15px;">(Applied)</span>
+          {/if}
+        </h3>
         <p>{i.companyId} in {i.city}</p>
         <div>
           <!-- The tags are shown as buttons that can be clicked to select them as filters -->

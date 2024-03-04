@@ -4,6 +4,7 @@
   export let item;
   import { createEventDispatcher } from "svelte";
   import { getCookie } from "./Helpers.svelte";
+  import { fetchJobApplications } from './db.js'
   const dispatch = createEventDispatcher();
 
   $: console.log("modalVisible atm is: " + modalVisible);
@@ -26,6 +27,7 @@
       });
       if (response.ok) {
         // alert(`Applied to ${item.name}!`);
+        await fetchJobApplications();
         handleClose();
       }
     } catch (error) {
