@@ -295,7 +295,7 @@ public class API {
         System.out.println(appliData);
         try {
             Integer id = appliData.get("applicationId");
-            jobApplicationDAO.deleteJobApplicationById(id);
+            jobApplicationDAO.deleteById(id);
             return ResponseEntity.ok("deleted application succes");
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("error deleting application");

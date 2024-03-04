@@ -8,5 +8,5 @@ import java.util.List;
 public interface JobApplicationDAO extends CrudRepository<JobApplication, Integer> {
     List<JobApplication> getJobApplicationsByUserId(Integer userId);
 
-    void deleteJobApplicationById(Integer id);
+    void deleteById(Integer id);
 }
