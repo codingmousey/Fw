@@ -4,11 +4,13 @@
   export let item;
   import { createEventDispatcher } from "svelte";
   import { getCookie } from "./Helpers.svelte";
-  import { fetchJobApplications } from "./db.js";
+  import { fetchJobApplications, cvUploaded } from "./db.js";
 
   export let appliedJobIds = [];
 
   const dispatch = createEventDispatcher();
+
+  let isCvUploaded = cvUploaded;
 
   $: console.log("modalVisible atm is: " + modalVisible);
   $: console.log("appliedJobIds in modal component: " + appliedJobIds);
@@ -48,17 +50,21 @@
     <div class="modal">
       <button id="closeButton" on:click|self={handleClose}>X</button>
       <pre>{JSON.stringify(item, null, 2)}</pre>
-      <button
-        id="applyButton"
-        disabled={appliedJobIds.includes(item.id)}
-        on:click={handleApply}
-      >
-        {#if appliedJobIds.includes(item.id)}
-          Already applied!
-        {:else}
-          Apply for this job
-        {/if}
-      </button>
+      {#if cvUploaded}
+        <button
+          id="applyButton"
+          disabled={appliedJobIds.includes(item.id)}
+          on:click={handleApply}
+        >
+          {#if appliedJobIds.includes(item.id)}
+            Already applied!
+          {:else}
+            Apply for this job
+          {/if}
+        </button>
+      {:else}
+        <button id="applyButton"  disabled={!isCvUploaded}> Please upload your CV first </button>
+      {/if}
     </div>
   </div>
 {/if}

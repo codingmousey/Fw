@@ -29,6 +29,7 @@ export const jobListings = writable([]);
 export const filteredJobListings = writable([]);
 export const prefs = writable([]);
 export const applications = writable([]);
+export let cvUploaded = false;
 
 async function fetchJobListings() {
   try {
@@ -136,9 +137,12 @@ export async function getCvForUser(userId) {
       // https://javascript.info/blob
       // https://stackoverflow.com/questions/11876175/how-to-get-a-file-or-blob-from-an-object-url/66998406#66998406
       const blob = await response.blob();
+      cvUploaded = true;
       return window.URL.createObjectURL(blob);
     } else {
+      cvUploaded = false;
       console.error("user has no cv yet");
+      return false;
     }
   } catch (error) {
     console.error("error getting cv :", error);

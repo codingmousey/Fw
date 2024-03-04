@@ -173,8 +173,8 @@
       <p class="message">CV uploaded!</p>
     {/if}
     <h2>My resume:</h2>
-    <label for="avatar">Upload my CV:</label>
-    <input type="file" on:change={handleCvChange} />
+    <label for="cv">Upload my CV:</label>
+    <input type="file" accept="application/pdf" on:change={handleCvChange} />
     <Button on:click={handleCvUpload}>Upload</Button>
     <div>
       {#if cvUrl}
