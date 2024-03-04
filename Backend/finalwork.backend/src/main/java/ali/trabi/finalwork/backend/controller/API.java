@@ -11,15 +11,26 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.File;
+import java.io.IOException;
+import java.util.Objects;
+
 @Controller
 @RequestMapping("/api")
 @CrossOrigin(origins = "*")
 public class API {
+
+    private final Path uploadDir = Paths.get("uploads");
 
     // alle DAO's
     private final UserDAO userDAO;
@@ -193,5 +204,25 @@ public class API {
             }
         }
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+    }
+
+    // uploading a users cv
+    @PostMapping("/uploadCv")
+    public ResponseEntity<String> uploadCv(@RequestParam("file") MultipartFile file,
+                                           @RequestParam("userId") Integer userId) {
+        User user = userDAO.getUserById(userId);
+
+        try {
+            if (!Files.exists(uploadDir)) {
+                Files.createDirectories(uploadDir);
+            }
+            Path filePath = uploadDir.resolve(file.getOriginalFilename());
+            file.transferTo(filePath);
+            user.setCv(filePath.toString());
+            userDAO.save(user);
+            return ResponseEntity.ok("cv uploaded on server succes");
+        } catch (IOException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("error saving cv in server");
+        }
     }
 }
