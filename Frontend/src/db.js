@@ -33,7 +33,7 @@ export const prefs = writable([]);
 async function fetchJobListings() {
   try {
     console.log("called api to get job listings");
-    const response = await fetch("http://localhost:6969/api/joblistings");
+    const response = await fetch(`http://localhost:6969/api/joblistings`);
     const data = await response.json();
     jobListings.set(data);
     filteredJobListings.set(data);
@@ -102,5 +102,22 @@ export async function deleteUserPref(pref) {
     });
   } catch (error) {
     console.error("error deleting user pref:", error);
+  }
+}
+
+export async function uploadCv(file) {
+  try {
+    const uploadData = new FormData();
+    uploadData.append("file", file);
+    uploadData.append("userId", getCookie("userIdForSession"));
+
+    const response = await fetch(`http://localhost:6969/api/uploadCv`, {
+      method: "POST",
+      body: uploadData,
+    });
+    const data = await response.text();
+    console.log("data from upload api: " + data);
+  } catch (error) {
+    console.error("error upload api:", error);
   }
 }

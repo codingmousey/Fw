@@ -1,5 +1,13 @@
 <script>
-  import {applications, fetchUserPrefs, deleteUserPref, addUserPref, prefs} from "./db.js";
+  import {
+    applications,
+    fetchUserPrefs,
+    deleteUserPref,
+    addUserPref,
+    prefs,
+    uploadCv,
+  } from "./db.js";
+  import Button from './Button.svelte';
 
   function removeApplication(id) {
     applications.update((apps) => apps.filter((app) => app !== id));
@@ -25,11 +33,30 @@
     }
   }
 
-  let yes = false;
+  // let yes = false;
 
   async function handlePressingEnter(e) {
     if (e.key === "Enter") {
       await addPreference();
+    }
+  }
+
+  let file = null;
+
+  function handleCvChange(e) {
+    file = e.target.files[0];
+  }
+  async function handleCvUpload() {
+    if (!file) {
+      console.log("please select a file");
+      return;
+    }
+
+    try {
+      await uploadCv(file);
+      console.log("cv sent success");
+    } catch (error) {
+      console.error("errro sending cv:", error);
     }
   }
 </script>
@@ -52,7 +79,12 @@
   <div class="column">
     <h2>My preferences</h2>
     <div>
-      <input type="text" bind:value={pref} placeholder="Enter Preference" on:keydown={handlePressingEnter}/>
+      <input
+        type="text"
+        bind:value={pref}
+        placeholder="Enter Preference"
+        on:keydown={handlePressingEnter}
+      />
       <button id="addButton" on:click={addPreference}>Add</button>
     </div>
 
@@ -84,8 +116,8 @@
     {/if}
     <!-- <br/><br/>
     <label>-->
-      <!-- https://svelte.dev/examples/checkbox-inputs -->
-      <!-- <input type="email" placeholder="Enter email" /><br />
+    <!-- https://svelte.dev/examples/checkbox-inputs -->
+    <!-- <input type="email" placeholder="Enter email" /><br />
       <input type="checkbox" bind:checked={yes} />
       Yes, send me an email update!
     </label>
@@ -102,7 +134,8 @@
   <div class="column">
     <h2>My resume:</h2>
     <label for="avatar">Upload my CV:</label>
-    <input accept="image/png, image/jpeg" type="file" />
+    <input  type="file" on:change={handleCvChange} />
+    <Button on:click={handleCvUpload}>Upload</Button>
   </div>
 </div>
 
