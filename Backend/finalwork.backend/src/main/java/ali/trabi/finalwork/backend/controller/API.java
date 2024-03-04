@@ -252,10 +252,10 @@ public class API {
     // adding a job application
     @PostMapping("/apply")
     @ResponseBody
-    public ResponseEntity<String> createJobApplication(@RequestBody Map<String, Object> requestBody) {
+    public ResponseEntity<String> createJobApplication(@RequestBody Map<String, String> requestBody) {
         try {
-            Integer userId = (Integer) requestBody.get("userId");
-            Integer jobListingId = (Integer) requestBody.get("jobListingId");
+            Integer userId = Integer.parseInt(requestBody.get("userId"));
+            Integer jobListingId = Integer.parseInt(requestBody.get("jobListingId"));
 
             User user = userDAO.getUserById(userId);
             JobListing jobListing = jobListingDAO.getJobListingById(jobListingId);
