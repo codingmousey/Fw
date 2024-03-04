@@ -3,6 +3,7 @@
   export let modalVisible = false;
   export let item;
   import { createEventDispatcher } from "svelte";
+  import { getCookie } from "./Helpers.svelte";
   const dispatch = createEventDispatcher();
 
   $: console.log("modalVisible atm is: " + modalVisible);
@@ -10,11 +11,27 @@
   function handleClose() {
     dispatch("closeModal");
   }
-  import { applications } from "./db.js";
-  function handleApply() {
-    console.log(`saved job with id: ${item.id} to your applications`);
-    applications.update((apps) => [...apps, item.id]);
-    alert(`Successfully sent your CV to ${item.company}!`);
+
+  async function handleApply() {
+    try {
+      const response = await fetch(`http://localhost:6969/api/apply`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          userId: getCookie("userIdForSession"),
+          jobListingId: item.id,
+        }),
+      });
+      if (response.ok) {
+        // alert(`Applied to ${item.name}!`);
+        handleClose();
+      }
+    } catch (error) {
+      console.error("error applying:", error);
+      alert(`error applying for ${item.name} sorry`);
+    }
   }
 </script>
 
