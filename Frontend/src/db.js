@@ -121,3 +121,26 @@ export async function uploadCv(file) {
     console.error("error upload api:", error);
   }
 }
+
+export async function getCvForUser(userId) {
+  try {
+    const response = await fetch(`http://localhost:6969/api/getCv`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        userId: userId,
+      },
+    });
+
+    if (response.ok) {
+      // https://javascript.info/blob
+      // https://stackoverflow.com/questions/11876175/how-to-get-a-file-or-blob-from-an-object-url/66998406#66998406
+      const blob = await response.blob();
+      return window.URL.createObjectURL(blob);
+    } else {
+      console.error("user has no cv yet");
+    }
+  } catch (error) {
+    console.error("error getting cv :", error);
+  }
+}

@@ -6,8 +6,11 @@
     addUserPref,
     prefs,
     uploadCv,
+    getCvForUser,
   } from "./db.js";
   import Button from "./Button.svelte";
+  import { getCookie } from "./Helpers.svelte";
+  import { onMount } from "svelte";
 
   function removeApplication(id) {
     applications.update((apps) => apps.filter((app) => app !== id));
@@ -57,11 +60,25 @@
       await uploadCv(file);
       console.log("cv sent success");
       showUploadMessage = true;
+      await loadCV();
       setTimeout(() => {
         showUploadMessage = false;
       }, 1000);
     } catch (error) {
       console.error("errro sending cv:", error);
+    }
+  }
+
+  let cvUrl = null;
+  async function loadCV() {
+    cvUrl = await getCvForUser(getCookie("userIdForSession"));
+  }
+
+  onMount(loadCV);
+
+  function openCV() {
+    if (cvUrl) {
+      window.open(cvUrl, "_blank");
     }
   }
 </script>
@@ -144,6 +161,13 @@
     <label for="avatar">Upload my CV:</label>
     <input type="file" on:change={handleCvChange} />
     <Button on:click={handleCvUpload}>Upload</Button>
+    <div>
+      {#if cvUrl}
+        <Button on:click={openCV}>View my Cv</Button>
+      {:else}
+        <p>No Cv found ;_; ...</p>
+      {/if}
+    </div>
   </div>
 </div>
 
