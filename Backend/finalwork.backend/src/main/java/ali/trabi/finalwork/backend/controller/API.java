@@ -5,6 +5,8 @@ import ali.trabi.finalwork.backend.dao.UserDAO;
 import ali.trabi.finalwork.backend.entity.JobListing;
 import ali.trabi.finalwork.backend.entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -223,6 +225,25 @@ public class API {
             return ResponseEntity.ok("cv uploaded on server succes");
         } catch (IOException e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("error saving cv in server");
+        }
+    }
+    // sending back a users cv
+    @PostMapping("/getCv")
+    public ResponseEntity<byte[]> getCv(@RequestHeader("userId") Integer userId) {
+        User user = userDAO.getUserById(userId);
+        String cvPath = user.getCv();
+        if (cvPath == null || cvPath.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        } else {
+            try {
+                Path filePath = Paths.get(cvPath);
+                byte[] fileBytes = Files.readAllBytes(filePath);
+                HttpHeaders headers = new HttpHeaders();
+                headers.setContentType(MediaType.APPLICATION_PDF);
+                return new ResponseEntity<>(fileBytes, headers, HttpStatus.OK);
+            } catch (IOException e) {
+                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+            }
         }
     }
 }
