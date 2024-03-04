@@ -7,7 +7,7 @@
   import AddJuniorJobForm from "./AddJuniorJobForm.svelte";
   import Login from "./Login.svelte";
   import Search from "./Search.svelte";
-  import { lst } from "./db.js";
+  import { lst, applications} from "./db.js";
   import ListView from "./ListView.svelte";
   import Modal from "./Modal.svelte";
   import Profile from "./Profile.svelte";
@@ -23,7 +23,8 @@
     const userIDCookie = getCookie("userIdForSession");
     if (userIDCookie) {
       signedIn = userIDCookie;
-    }
+    };
+    fetchJobApplications();
   });
 
   const listenAdd = (e) => {
@@ -77,6 +78,11 @@
   const handleRegisterSuccess = () => {
     current_item = "Sign In";
   };
+
+  $: appliedJobIds = $applications.map(
+    (application) => application.jobListing.id
+  );
+
 </script>
 
 <!-- Scripts -->
@@ -126,7 +132,7 @@
 <Search />
 
 <main>
-  <Modal {item} {modalVisible} on:closeModal={toggleModal} />
+  <Modal {item} {modalVisible} {appliedJobIds} on:closeModal={toggleModal} />
   <!-- svelte-ignore empty-block -->
   {#if current_item === "Home"}
     {#if currentView === "list"}

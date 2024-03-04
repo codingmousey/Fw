@@ -4,10 +4,15 @@
   export let item;
   import { createEventDispatcher } from "svelte";
   import { getCookie } from "./Helpers.svelte";
-  import { fetchJobApplications } from './db.js'
+  import { fetchJobApplications } from "./db.js";
+
+  export let appliedJobIds = [];
+
   const dispatch = createEventDispatcher();
 
   $: console.log("modalVisible atm is: " + modalVisible);
+  $: console.log("appliedJobIds in modal component: " + appliedJobIds);
+  $: console.log("item.id in modal component: " + item);
 
   function handleClose() {
     dispatch("closeModal");
@@ -43,8 +48,17 @@
     <div class="modal">
       <button id="closeButton" on:click|self={handleClose}>X</button>
       <pre>{JSON.stringify(item, null, 2)}</pre>
-      <button id="applyButton" on:click={handleApply}>Apply for this job</button
+      <button
+        id="applyButton"
+        disabled={appliedJobIds.includes(item.id)}
+        on:click={handleApply}
       >
+        {#if appliedJobIds.includes(item.id)}
+          Already applied!
+        {:else}
+          Apply for this job
+        {/if}
+      </button>
     </div>
   </div>
 {/if}
@@ -94,5 +108,10 @@
     border-radius: 4;
     box-shadow: 2px 2px 2px 2px rgba(0, 0, 0, 0.3);
     cursor: pointer;
+  }
+
+  #applyButton:disabled {
+    opacity: 0.69;
+    cursor: not-allowed;
   }
 </style>
