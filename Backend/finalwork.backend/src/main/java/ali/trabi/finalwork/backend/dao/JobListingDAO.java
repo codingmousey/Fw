@@ -13,4 +13,5 @@ public interface JobListingDAO extends CrudRepository<JobListing, Integer> {
     List<String> findProgrammingLanguagesByCompanyId(@Param("companyId") Integer companyId);
 
     JobListing getJobListingById(Integer jobListingId);
+    List<JobListing> getAllJobListingsByCompanyId(Integer companyId);
 }

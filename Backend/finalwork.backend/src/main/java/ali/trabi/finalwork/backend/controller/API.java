@@ -301,4 +301,20 @@ public class API {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("error deleting application");
         }
     }
+    // getting all joblistings from a company
+    @PostMapping("/joblistingsFromCompany")
+    @ResponseBody
+    public ResponseEntity<List<JobListing>> getJobListingsByCompanyId(@RequestBody Map<String, Integer> companyData) {
+        try {
+            Integer companyId = companyData.get("companyId");
+            List<JobListing> jobListings = jobListingDAO.getAllJobListingsByCompanyId(companyId);
+            if (jobListings.isEmpty()) {
+                return ResponseEntity.notFound().build();
+            } else {
+                return ResponseEntity.ok(jobListings);
+            }
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+        }
+    }
 }
