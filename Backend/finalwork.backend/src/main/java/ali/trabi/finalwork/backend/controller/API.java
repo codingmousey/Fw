@@ -252,10 +252,10 @@ public class API {
     // adding a job application
     @PostMapping("/apply")
     @ResponseBody
-    public ResponseEntity<String> createJobApplication(@RequestBody Map<String, String> requestBody) {
+    public ResponseEntity<String> createJobApplication(@RequestBody Map<String, String> applicationData) {
         try {
-            Integer userId = Integer.parseInt(requestBody.get("userId"));
-            Integer jobListingId = Integer.parseInt(requestBody.get("jobListingId"));
+            Integer userId = Integer.parseInt(applicationData.get("userId"));
+            Integer jobListingId = Integer.parseInt(applicationData.get("jobListingId"));
 
             User user = userDAO.getUserById(userId);
             JobListing jobListing = jobListingDAO.getJobListingById(jobListingId);
@@ -284,6 +284,21 @@ public class API {
             }
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+        }
+    }
+
+    // deleting a job application by id
+    @DeleteMapping("/removeApplication")
+    @ResponseBody
+    public ResponseEntity<String> removeJobApplication(@RequestBody Map<String, Integer> appliData) {
+        System.out.println("were in remove application api");
+        System.out.println(appliData);
+        try {
+            Integer id = appliData.get("applicationId");
+            jobApplicationDAO.deleteJobApplicationById(id);
+            return ResponseEntity.ok("deleted application succes");
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("error deleting application");
         }
     }
 }
