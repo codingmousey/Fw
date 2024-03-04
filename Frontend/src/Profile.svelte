@@ -7,19 +7,18 @@
     prefs,
     uploadCv,
     getCvForUser,
+    fetchJobApplications,
+    removeApplication,
   } from "./db.js";
   import Button from "./Button.svelte";
   import { getCookie } from "./Helpers.svelte";
   import { onMount } from "svelte";
 
-  function removeApplication(id) {
-    applications.update((apps) => apps.filter((app) => app !== id));
-  }
-
   let pref = "";
   let showPreferences = false;
   let showMessage = false;
   let showUploadMessage = false;
+  $: jobApplications = $applications;
 
   async function addPreference() {
     addUserPref(pref);
@@ -74,24 +73,40 @@
     cvUrl = await getCvForUser(getCookie("userIdForSession"));
   }
 
-  onMount(loadCV);
-
   function openCV() {
     if (cvUrl) {
       window.open(cvUrl, "_blank");
     }
   }
+
+  async function handleRemoveApplication(application) {
+    try {
+      await removeApplication(application);
+      applications.update((apps) =>
+        apps.filter((app) => app.id !== application.id)
+      );
+    } catch (error) {
+      console.error("error removing job applicatoion:", error);
+    }
+  }
+
+  onMount(() => {
+    loadCV();
+    fetchJobApplications();
+  });
 </script>
 
 <div class="container">
   <div class="column">
     <h2>Jobs I applied to:</h2>
     <ul>
-      {#each $applications as jobId}
+      {#each jobApplications as job}
+        {console.log("job: " + JSON.stringify(job, null, 2))}
         <div>
-          Job ID: {jobId}
-          <button id="removeButton" on:click={() => removeApplication(jobId)}
-            >Remove</button
+          Title: {job.jobListing.name}
+          <Button
+            id="removeButton"
+            on:click={() => handleRemoveApplication(job)}>Remove</Button
           >
         </div>
       {/each}

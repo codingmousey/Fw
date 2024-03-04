@@ -25,10 +25,10 @@ export const lst = writable([
   },
 ]);
 
-export const applications = writable([]);
 export const jobListings = writable([]);
 export const filteredJobListings = writable([]);
 export const prefs = writable([]);
+export const applications = writable([]);
 
 async function fetchJobListings() {
   try {
@@ -142,5 +142,41 @@ export async function getCvForUser(userId) {
     }
   } catch (error) {
     console.error("error getting cv :", error);
+  }
+}
+
+export async function fetchJobApplications() {
+  try {
+    const response = await fetch(
+      `http://localhost:6969/api/getUserJobApplications`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          userId: getCookie("userIdForSession"),
+        },
+      }
+    );
+    if (response.ok) {
+      const data = await response.json();
+      console.log("getting job applications succes");
+      applications.set(data);
+    }
+  } catch (error) {
+    console.error("error geting job appliatons:", error);
+  }
+}
+
+export async function removeApplication(application) {
+  try {
+    await fetch(`http://localhost:6969/api/removeApplication`, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ applicationId: application.id }),
+    });
+  } catch (error) {
+    console.error("error deleting job appliation:", error);
   }
 }
