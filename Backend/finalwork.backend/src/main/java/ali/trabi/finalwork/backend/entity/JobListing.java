@@ -10,6 +10,9 @@ public class JobListing {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+    private String companyName;
+    private boolean internExtern;
+    private String url;
 
     private String name;
     private String description;
@@ -34,6 +37,46 @@ public class JobListing {
     private List<Suggestion> suggestions;
 
     public JobListing() {
+    }
+
+    public JobListing(Integer id, String companyName, boolean internExtern, String url, String name, String description, List<String> programmingLanguages, String status, String country, LocalDateTime createdDate, LocalDateTime updatedDate, Integer companyId, String city) {
+        this.id = id;
+        this.companyName = companyName;
+        this.internExtern = internExtern;
+        this.url = url;
+        this.name = name;
+        this.description = description;
+        this.programmingLanguages = programmingLanguages;
+        this.status = status;
+        this.country = country;
+        this.createdDate = createdDate;
+        this.updatedDate = updatedDate;
+        this.companyId = companyId;
+        this.city = city;
+    }
+
+    public String getCompanyName() {
+        return companyName;
+    }
+
+    public void setCompanyName(String companyName) {
+        this.companyName = companyName;
+    }
+
+    public boolean isInternExtern() {
+        return internExtern;
+    }
+
+    public void setInternExtern(boolean internExtern) {
+        this.internExtern = internExtern;
+    }
+
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
     }
 
     public JobListing(Integer id, String name, String description, List<String> programmingLanguages, String status, String country, LocalDateTime createdDate, LocalDateTime updatedDate, Integer companyId, String city) {
@@ -140,6 +183,9 @@ public class JobListing {
                 ", country='" + country + '\'' +
                 ", createdDate=" + createdDate +
                 ", updatedDate=" + updatedDate +
+                ", companyName=" + companyName +
+                ", url=" + url +
+                ", internExtern=" + internExtern +
                 '}';
     }
 }
