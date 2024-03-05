@@ -159,17 +159,20 @@ public class API {
     @PostMapping("/add_joblisting_bot")
     @ResponseBody
     public HttpStatus insertJobListingFromPythonBot(@RequestBody JobListing jobListing) {
-        System.out.println("add joblisting api call called");
-        System.out.println("joblisting : " + jobListing);
-        jobListing.setCompanyName(jobListing.getCompanyName());
-        jobListing.setCompanyId(null);
-        jobListing.setUrl(jobListing.getUrl());
-        jobListing.setInternExtern(true);
-        System.out.println("joblisting : " + jobListing);
-        jobListing.setCreatedDate(jobListing.getCreatedDate());
-        jobListing.setProgrammingLanguages(null);
-        jobListingDAO.save(jobListing);
-        return HttpStatus.CREATED;
+        try {
+            System.out.println("add joblisting api call called");
+            System.out.println("joblisting : " + jobListing);
+            jobListing.setCompanyName(jobListing.getCompanyName());
+            jobListing.setCompanyId(null);
+            jobListing.setUrl(jobListing.getUrl());
+            jobListing.setInternExtern(true);
+            jobListing.setCreatedDate(jobListing.getCreatedDate());
+            jobListing.setProgrammingLanguages(null);
+            jobListingDAO.save(jobListing);
+            return HttpStatus.CREATED;
+        } catch (Exception e) {
+            return HttpStatus.INTERNAL_SERVER_ERROR;
+        }
     }
 
     // get all prefs from a user
