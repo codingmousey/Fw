@@ -7,24 +7,25 @@
   import AddJuniorJobForm from "./AddJuniorJobForm.svelte";
   import Login from "./Login.svelte";
   import Search from "./Search.svelte";
-  import { lst, applications, fetchJobApplications} from "./db.js";
+  import { lst, applications, fetchJobApplications } from "./db.js";
   import ListView from "./ListView.svelte";
   import Modal from "./Modal.svelte";
   import Profile from "./Profile.svelte";
   import Register from "./Register.svelte";
   import { onMount } from "svelte";
   import { getCookie } from "./Helpers.svelte";
-  import CompanyProfile from './CompanyProfile.svelte';
+  import CompanyProfile from "./CompanyProfile.svelte";
   let current_item;
   let signedIn = false;
   let username = "";
+  let userRole = getCookie("userRole");
   $: console.log("signedIn NOW is : " + signedIn);
 
   onMount(() => {
     const userIDCookie = getCookie("userIdForSession");
     if (userIDCookie) {
       signedIn = userIDCookie;
-    };
+    }
     fetchJobApplications();
   });
 
@@ -37,10 +38,12 @@
     console.log("work??" + userInfo.detail.username);
     console.log("user signed in");
     username = userInfo.detail.username;
+    userRole = userInfo.detail.role;
+
     signedIn = true;
     console.log("signedIn: " + signedIn);
     console.log("username logged in: " + username);
-    console.log("username logged in: " + userInfo.detail.username);
+    console.log("userRole logged in: " + userRole);
     current_item = "Home";
   };
 
@@ -50,10 +53,14 @@
     console.log("user signed out");
     document.cookie =
       "userIdForSession=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+    document.cookie =
+      "userRole=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
     username = "";
+    userRole = "";
     signedIn = false;
     console.log("signedIn: " + signedIn);
     current_item = "Home";
+    location.reload();
   };
 
   let currentView = "card";
@@ -83,7 +90,6 @@
   $: appliedJobIds = $applications.map(
     (application) => application.jobListing.id
   );
-
 </script>
 
 <!-- Scripts -->
@@ -142,17 +148,22 @@
       <CardView {$lst} on:getIdFromDivClick={handleGetIdFromDivClick} />
     {/if}
 
-    <Map/>
+    <Map />
   {:else if current_item === "About us"}
-    <CompanyProfile/>
+  <div><h2>About us page xd</h2></div>
+
   {:else if current_item === "Post Junior Job"}
     <AddJuniorJobForm on:add={listenAdd} />
   {:else if current_item === "My Profile"}
-    <Profile />
+    {#if userRole === "admin"}
+      <CompanyProfile />
+    {:else}
+      <Profile />
+    {/if}
   {:else if current_item === "Statistics"}
     <div><h2>Here comes some interesting statistics</h2></div>
   {:else if current_item === "Register"}
-    <Register on:registerSuccess={handleRegisterSuccess}/>
+    <Register on:registerSuccess={handleRegisterSuccess} />
   {:else if current_item === "Sign In"}
     <Login on:signIn={handleSignIn} />
   {/if}

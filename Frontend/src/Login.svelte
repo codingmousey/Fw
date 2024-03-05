@@ -1,6 +1,7 @@
 <script>
   import Button from "./Button.svelte";
   import { createEventDispatcher } from "svelte";
+  import { getCookie } from "./Helpers.svelte";
   const dispatch = createEventDispatcher();
   let obj = {
     username: "",
@@ -27,9 +28,15 @@
         } else {
           console.log("user: " + res.id);
           console.log("username: " + res.username);
+          console.log('role: ' + res.role);
           document.cookie = `userIdForSession=${res.id}; path=/;`;
+          document.cookie = `userRole=${res.role}; path=/;`;
+          console.log('userIdCookie: ' + getCookie("userIdForSession"));
+          console.log('userRole cookie: ' + getCookie("userRole"));
+          console.log()
           dispatch("signIn", {
             username: obj.username,
+            role: res.role,
           });
         }
       }
