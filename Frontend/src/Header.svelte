@@ -23,19 +23,19 @@
     console.log("clicked on : " + e.detail);
     current_item = e.detail; // change the current_item to whichever was clicked
   };
-
   $: {
+    let isAdmin = getCookie("userRole") === "admin";
+    let newArr = [];
     if (signedIn) {
-      arr = arr.filter((item) => item !== "Sign In");
-      arr.push("Sign Out");
-      arr = arr.filter((item) => item !== "Register");
-    } else {
-      arr = arr.filter((item) => item !== "Sign Out");
-      if (!arr.includes("Register")) {
-        arr.push("Register");
+      newArr.push("Home", "About us", "My Profile", "Statistics");
+      if (isAdmin) {
+        newArr.push("Post Junior Job");
       }
-      arr.push("Sign In");
+      newArr.push("Sign Out");
+    } else {
+      newArr.push("Home", "About us", "Statistics", "Register", "Sign In");
     }
+    arr = newArr;
   }
 </script>
 
@@ -45,6 +45,9 @@
     <span class="red_text">Junior</span> Job
   </div>
   <img src="/img/icon.png" alt="Zed Icon" class="icon" />
+  {#if signedIn && username !== ""}
+    <div>Welcome {username}!</div>
+  {/if}
   <Navbar
     {arr}
     {current_item}
@@ -52,9 +55,6 @@
     on:customEvent_clickNavItem={customEventListen_clickNavItem}
     on:signOut
   />
-  {#if signedIn && username !== ""}
-    <div>Welcome {username}!</div>
-  {/if}
 </header>
 
 <!-- Css -->
