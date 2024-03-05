@@ -1,4 +1,3 @@
-<!-- modal.svelte -->
 <script>
   export let modalVisible = false;
   export let item;
@@ -50,20 +49,26 @@
     <div class="modal">
       <button id="closeButton" on:click|self={handleClose}>X</button>
       <pre>{JSON.stringify(item, null, 2)}</pre>
-      {#if cvUploaded}
-        <button
-          id="applyButton"
-          disabled={appliedJobIds.includes(item.id)}
-          on:click={handleApply}
-        >
-          {#if appliedJobIds.includes(item.id)}
-            Already applied!
-          {:else}
-            Apply for this job
-          {/if}
-        </button>
+      {#if item.internExtern}
+        <a href="{item.url}" target="_blank">
+          <button id="applyButton">Follow link</button>
+        </a>
       {:else}
-        <button id="applyButton"  disabled={!isCvUploaded}> Please upload your CV first </button>
+        {#if cvUploaded}
+          <button
+            id="applyButton"
+            disabled={appliedJobIds.includes(item.id)}
+            on:click={handleApply}
+          >
+            {#if appliedJobIds.includes(item.id)}
+              Already applied!
+            {:else}
+              Apply for this job
+            {/if}
+          </button>
+        {:else}
+          <button id="applyButton" disabled={!isCvUploaded}> Please upload your CV first </button>
+        {/if}
       {/if}
     </div>
   </div>
