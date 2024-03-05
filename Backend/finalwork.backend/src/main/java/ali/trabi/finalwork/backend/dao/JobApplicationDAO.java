@@ -9,4 +9,5 @@ public interface JobApplicationDAO extends CrudRepository<JobApplication, Intege
     List<JobApplication> getJobApplicationsByUserId(Integer userId);
 
     void deleteById(Integer id);
+    List<JobApplication> findByJobListing_CompanyId(Integer companyId);
 }

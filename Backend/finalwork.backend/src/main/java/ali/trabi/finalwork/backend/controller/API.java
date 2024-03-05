@@ -317,4 +317,21 @@ public class API {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
     }
+
+    // getting all job applications for a company
+    @PostMapping("/jobApplicationsForCompany")
+    @ResponseBody
+    public ResponseEntity<List<JobApplication>> getJobApplicationsByCompany(@RequestBody Map<String, Integer> companyData) {
+        try {
+            Integer companyId = companyData.get("companyId");
+            List<JobApplication> jobApplications = jobApplicationDAO.findByJobListing_CompanyId(companyId);
+            if (jobApplications.isEmpty()) {
+                return ResponseEntity.notFound().build();
+            } else {
+                return ResponseEntity.ok(jobApplications);
+            }
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+        }
+    }
 }
