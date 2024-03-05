@@ -6,6 +6,9 @@
   let dispatch = createEventDispatcher();
 
   let jobListing = {
+    companyName:"",
+    url: "",
+    internExtern: false,
     name: "",
     description: "",
     programmingLanguages: "",
@@ -39,6 +42,10 @@
 </script>
 
 <form on:submit|preventDefault={customSubmitHandler}>
+  <div class="form-field">
+    <label for="description">Company:</label>
+    <input type="text" id="company" bind:value={jobListing.companyName} />
+  </div>
   <div class="form-field">
     <label for="name">Title:</label>
     <input type="text" id="name" bind:value={jobListing.name} />

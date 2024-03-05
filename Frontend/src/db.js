@@ -30,6 +30,8 @@ export const filteredJobListings = writable([]);
 export const prefs = writable([]);
 export const applications = writable([]);
 export let cvUploaded = false;
+export const companyJobListings = writable([]);
+export const companyJobApplications = writable([]);
 
 async function fetchJobListings() {
   try {
@@ -182,5 +184,45 @@ export async function removeApplication(application) {
     });
   } catch (error) {
     console.error("error deleting job appliation:", error);
+  }
+}
+
+export async function fetchCompanyJobListings() {
+  try {
+    const response = await fetch(
+      "http://localhost:6969/api/joblistingsFromCompany",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ companyId: getCookie("userIdForSession") }),
+      }
+    );
+    const data = await response.json();
+    companyJobListings.set(data);
+  } catch (error) {
+    console.error("error fetching job listings from this company:", error);
+    companyJobListings.set([]);
+  }
+}
+
+export async function fetchJobApplicationsForCompany() {
+  try {
+    const response = await fetch(
+      "http://localhost:6969/api/jobApplicationsForCompany",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ companyId: getCookie("userIdForSession") }),
+      }
+    );
+    const data = await response.json();
+    companyJobApplications.set(data);
+  } catch (error) {
+    console.error("error fetching job applications for this company:", error);
+    companyJobApplications.set([]);
   }
 }

@@ -33,7 +33,8 @@
             <span style="color: green; font-size: 15px;">(Applied)</span>
           {/if}
         </h3>
-        <p>{i.companyId} in {i.city}</p>
+        <p>{i.companyName} in {i.city}</p>
+        <p>{i.description} </p>
         <div>
           <!-- The tags are shown as buttons that can be clicked to select them as filters -->
           {#each i.programmingLanguages as tag}

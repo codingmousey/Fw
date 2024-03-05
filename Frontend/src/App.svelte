@@ -7,13 +7,14 @@
   import AddJuniorJobForm from "./AddJuniorJobForm.svelte";
   import Login from "./Login.svelte";
   import Search from "./Search.svelte";
-  import { lst, applications} from "./db.js";
+  import { lst, applications, fetchJobApplications} from "./db.js";
   import ListView from "./ListView.svelte";
   import Modal from "./Modal.svelte";
   import Profile from "./Profile.svelte";
   import Register from "./Register.svelte";
   import { onMount } from "svelte";
   import { getCookie } from "./Helpers.svelte";
+  import CompanyProfile from './CompanyProfile.svelte';
   let current_item;
   let signedIn = false;
   let username = "";
@@ -143,7 +144,7 @@
 
     <Map/>
   {:else if current_item === "About us"}
-    <div><h2>Here comes the About us page</h2></div>
+    <CompanyProfile/>
   {:else if current_item === "Post Junior Job"}
     <AddJuniorJobForm on:add={listenAdd} />
   {:else if current_item === "My Profile"}
