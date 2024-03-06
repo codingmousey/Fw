@@ -34,7 +34,9 @@
       "search button clicked with chosen language: " +
         language +
         " and chosen location: " +
-        location
+        location +
+        ", and filter title: " +
+        filterTitle
     );
     const filteredJobs = $jobListings.filter((i) => {
       /* https://d7k.medium.com/js-includes-vs-some-b3cd546a7bc3 */
@@ -45,12 +47,17 @@
         );
       const filterLocation =
         !location || i.city.toLowerCase().includes(location.toLowerCase());
-      return filterLanguage && filterLocation;
+      const filterTitleMatch =
+        !filterTitle ||
+        i.name.toLowerCase().includes(filterTitle.toLowerCase()); // Filter by title
+
+      return filterLanguage && filterLocation && filterTitleMatch;
     });
     console.log("filtered jobs:", JSON.stringify(filteredJobs, null, 2));
     filteredJobListings.set(filteredJobs);
   }
 
+  let filterTitle = "";
   function calculateMatches(job) {
     let matchCount = 0;
 
@@ -102,6 +109,7 @@
         id="language"
         list="languages"
         placeholder="Language"
+        on:input={handleSearch}
       />
       <datalist id="languages">
         {#each $languages as potentialLanguage}
@@ -116,12 +124,22 @@
         id="location"
         list="locations"
         placeholder="Location"
+        on:input={handleSearch}
       />
       <datalist id="locations">
         {#each $locations as potentialLocation}
           <option value={potentialLocation} />
         {/each}
       </datalist>
+    </div>
+    <div class="form-field">
+      <input
+        type="text"
+        bind:value={filterTitle}
+        id="filterTitle"
+        placeholder="Filter by Title"
+        on:input={handleSearch}
+      />
     </div>
     <Button on:click={handleSearch}>Search</Button>
   </form>
