@@ -73,7 +73,7 @@
   }
 
   .icon {
-    max-width: 69px;
+    max-width: 100px;
   }
 
   .red_text {
