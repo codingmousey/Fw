@@ -198,16 +198,6 @@
     padding: 20px;
   }
 
-  #removeButton {
-    background-color: rgb(102, 21, 18);
-    color: rgb(0, 0, 0);
-    padding: 5px 10px;
-    border: none;
-    border-radius: 4;
-    box-shadow: 2px 2px 2px 2px rgba(0, 0, 0, 0.3);
-    cursor: pointer;
-  }
-
   #addButton {
     background-color: rgb(82, 153, 24);
     color: rgb(0, 0, 0);
