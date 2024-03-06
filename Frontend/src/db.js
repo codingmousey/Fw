@@ -33,7 +33,7 @@ export let cvUploaded = false;
 export const companyJobListings = writable([]);
 export const companyJobApplications = writable([]);
 
-async function fetchJobListings() {
+export async function fetchJobListings() {
   try {
     console.log("called api to get job listings");
     const response = await fetch(`http://localhost:6969/api/joblistings`);

@@ -20,10 +20,20 @@
   onMount(() => {
     fetchJobApplications();
   });
+
+  let sorted = [];
+
+  $: sorted = $filteredJobListings.slice().sort((a, b) => {
+    if (a.internExtern === b.internExtern) {
+      return new Date(b.createdDate) - new Date(a.createdDate);
+    } else {
+      return a.internExtern ? 1 : -1;
+    }
+  });
 </script>
 
 <div class="lst">
-  {#each $filteredJobListings as i (i.id)}
+  {#each sorted as i (i.id)}
     <!-- svelte-ignore a11y-click-events-have-key-events -->
     <article on:click={() => handleDivClick(i)}>
       <!-- svelte-ignore a11y-missing-attribute -->

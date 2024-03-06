@@ -143,15 +143,14 @@
   <!-- svelte-ignore empty-block -->
   {#if current_item === "Home"}
     {#if currentView === "list"}
-      <ListView on:getIdFromDivClick={handleGetIdFromDivClick}/>
+      <ListView on:getIdFromDivClick={handleGetIdFromDivClick} />
     {:else}
       <CardView {$lst} on:getIdFromDivClick={handleGetIdFromDivClick} />
     {/if}
 
     <Map />
   {:else if current_item === "About us"}
-  <div><h2>About us page xd</h2></div>
-
+    <div><h2>About us page xd</h2></div>
   {:else if current_item === "Post Junior Job"}
     <AddJuniorJobForm on:add={listenAdd} />
   {:else if current_item === "My Profile"}
