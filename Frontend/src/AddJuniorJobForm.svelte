@@ -1,6 +1,7 @@
 <script>
   import { createEventDispatcher } from "svelte";
   import Button from "./Button.svelte";
+  import { fetchJobListings } from './db.js';
   import { getCookie } from "./Helpers.svelte";
 
   let dispatch = createEventDispatcher();
@@ -37,6 +38,7 @@
       },
       body: JSON.stringify(juniorJob),
     });
+    await fetchJobListings()
     dispatch("add");
   };
 </script>

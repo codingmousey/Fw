@@ -5,6 +5,8 @@
   import { filteredJobListings } from "./db.js";
   import { derived } from "svelte/store";
   import { prefs, fetchUserPrefs } from "./db.js";
+  import { getCookie } from "./Helpers.svelte";
+  import { onMount } from "svelte";
   /* https://eternaldev.com/blog/introduction-to-svelte-derived-store */
   /* https://stackoverflow.com/questions/1960473/get-all-unique-values-in-a-javascript-array-remove-duplicates */
 
@@ -13,6 +15,10 @@
     console.log("languages: " + languages);
     return [...new Set(languages)];
   });
+
+  let userId = "";
+
+  $: userId = getCookie("userIdForSession");
 
   const locations = derived(jobListings, ($jobListings) => {
     const locations = $jobListings.map((i) => i.city).flat();
@@ -45,7 +51,6 @@
     filteredJobListings.set(filteredJobs);
   }
 
-  
   function calculateMatches(job) {
     let matchCount = 0;
 
@@ -81,8 +86,11 @@
   <div class="left">
     <h1>All junior jobs in one place</h1>
     <h3>
-      Find your first job or look around where you can find your dream job! Load
-      up your <Button on:click={handleLoadPreference} color="green">preferences</Button> OR search:
+      Find your first job or look around where you can find your dream job!{#if userId}
+        Load up your <Button on:click={handleLoadPreference} color="green"
+          >preferences</Button
+        > OR search:
+      {/if}
     </h3>
   </div>
 

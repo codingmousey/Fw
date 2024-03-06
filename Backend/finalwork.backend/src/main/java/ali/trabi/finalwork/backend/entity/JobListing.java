@@ -15,6 +15,7 @@ public class JobListing {
     private String url;
 
     private String name;
+    @Column (length = 1234)
     private String description;
     @ElementCollection
     private List<String> programmingLanguages;
