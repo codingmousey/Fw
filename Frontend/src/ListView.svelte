@@ -6,6 +6,7 @@
   } from "./db.js";
   import { onMount } from "svelte";
   import { createEventDispatcher } from "svelte";
+  import Button from "./Button.svelte";
 
   const dispatch = createEventDispatcher();
   function handleDivClick(i) {
@@ -30,10 +31,36 @@
       return a.internExtern ? 1 : -1;
     }
   });
+
+  let currPage = 1;
+  const rowsPPage = 5;
+
+  $: start = (currPage - 1) * rowsPPage;
+  $: end = Math.min(start + rowsPPage, sorted.length);
+
+  function nextPage() {
+    if (end < sorted.length) {
+      currPage++;
+    }
+  }
+
+  function prevPage() {
+    if (currPage > 1) {
+      currPage--;
+    }
+  }
+
+  $: range = `${start + 1} - ${Math.min(end, sorted.length)}`;
 </script>
 
 <div class="lst">
-  {#each sorted as i (i.id)}
+  <div class="pagination">
+    <Button on:click={prevPage} disabled={currPage === 1}>&lt;&lt;</Button>
+    <Button on:click={nextPage} disabled={end >= sorted.length}>&gt;&gt;</Button
+    >
+  </div>
+  <div class="pagination"><p>Showing {range} of {sorted.length} results</p></div>
+  {#each sorted.slice(start, end) as i (i.id)}
     <!-- svelte-ignore a11y-click-events-have-key-events -->
     <article on:click={() => handleDivClick(i)}>
       <!-- svelte-ignore a11y-missing-attribute -->
@@ -107,5 +134,13 @@
 
   article:hover {
     background-color: #a0bdba;
+  }
+
+  .pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: rgb(70, 11, 11);
+    margin-bottom: 10px;
   }
 </style>

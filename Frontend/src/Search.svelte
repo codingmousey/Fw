@@ -82,7 +82,7 @@
     <h1>All junior jobs in one place</h1>
     <h3>
       Find your first job or look around where you can find your dream job! Load
-      up your <Button on:click={handleLoadPreference}>preferences</Button> OR search:
+      up your <Button on:click={handleLoadPreference} color="green">preferences</Button> OR search:
     </h3>
   </div>
 

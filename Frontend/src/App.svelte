@@ -148,7 +148,7 @@
       <CardView {$lst} on:getIdFromDivClick={handleGetIdFromDivClick} />
     {/if}
 
-    <Map />
+    <!--<Map />  -->
   {:else if current_item === "About us"}
     <div><h2>About us page xd</h2></div>
   {:else if current_item === "Post Junior Job"}
