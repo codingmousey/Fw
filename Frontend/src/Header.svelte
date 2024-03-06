@@ -11,13 +11,15 @@
     "About us",
     "Post Junior Job",
     "My Profile",
-    "Statistics",
     "Register",
   ];
 
   export let current_item = arr[0]; // starting with the Homepage being highlighted
   export let signedIn = false;
   export let username = "";
+  function handleHomeClick() {
+    current_item = "Home";
+  }
 
   const customEventListen_clickNavItem = (e) => {
     console.log("clicked on : " + e.detail);
@@ -27,13 +29,13 @@
     let isAdmin = getCookie("userRole") === "admin";
     let newArr = [];
     if (signedIn) {
-      newArr.push("Home", "About us", "My Profile", "Statistics");
+      newArr.push("Home", "About us", "My Profile");
       if (isAdmin) {
         newArr.push("Post Junior Job");
       }
       newArr.push("Sign Out");
     } else {
-      newArr.push("Home", "About us", "Statistics", "Register", "Sign In");
+      newArr.push("Home", "About us", "Register", "Sign In");
     }
     arr = newArr;
   }
@@ -41,10 +43,17 @@
 
 <!-- HTML -->
 <header>
-  <div class="title">
+  <!-- svelte-ignore a11y-click-events-have-key-events -->
+  <div class="title" on:click={handleHomeClick}>
     <span class="red_text">Junior</span> Job
   </div>
-  <img src="/img/icon.png" alt="Zed Icon" class="icon" />
+  <!-- svelte-ignore a11y-click-events-have-key-events -->
+  <img
+    src="/img/icon.png"
+    alt="Zed Icon"
+    class="icon"
+    on:click={handleHomeClick}
+  />
   {#if signedIn && username !== ""}
     <div>Welcome {username}!</div>
   {/if}
@@ -79,4 +88,12 @@
   .red_text {
     color: red;
   }
+
+  .title :hover {
+    cursor: pointer;
+  }
+
+  .title img:hover {
+  cursor: pointer;
+}
 </style>

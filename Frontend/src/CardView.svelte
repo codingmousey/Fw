@@ -59,10 +59,10 @@
 
 <div class="div">
   <div class="pagination">
-    <Button on:click={prevPage} disabled={currPage === 1}>&lt;&lt;</Button>
-    <Button on:click={nextPage} disabled={end >= sorted.length}>&gt;&gt;</Button>
-    <p>Showing {range} of {sorted.length} results</p>
-  </div>
+  <Button on:click={prevPage} disabled={currPage === 1}>&lt;&lt;</Button>
+  <Button on:click={nextPage} disabled={end >= sorted.length}>&gt;&gt;</Button>
+  <p>Showing {range} of {sorted.length} results</p>
+</div>
   {#each sorted.slice(start, end) as i (i.id)}
     <!-- svelte-ignore a11y-click-events-have-key-events -->
     <div class="card" on:click={() => handleDivClick(i)}>
@@ -155,5 +155,9 @@
     align-items: center;
     color: rgb(70, 11, 11);
     margin-bottom: 10px;
+  }
+
+  .div :hover {
+    background-color: rgba(210, 212, 212, 0.795);
   }
 </style>

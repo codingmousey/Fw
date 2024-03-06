@@ -141,11 +141,14 @@
     font-weight: bold;
   }
 
+  #applyButton:hover {
+    background-color: rgb(101, 209, 0);
+  }
+
   #applyButton:disabled {
     opacity: 0.69;
     background-color: gray;
     font-weight: bold;
-
     cursor: not-allowed;
   }
 </style>

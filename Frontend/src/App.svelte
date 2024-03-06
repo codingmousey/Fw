@@ -15,6 +15,7 @@
   import { onMount } from "svelte";
   import { getCookie } from "./Helpers.svelte";
   import CompanyProfile from "./CompanyProfile.svelte";
+  import AboutUs from "./AboutUs.svelte";
   let current_item;
   let signedIn = false;
   let username = "";
@@ -145,12 +146,12 @@
     {#if currentView === "list"}
       <ListView on:getIdFromDivClick={handleGetIdFromDivClick} />
     {:else}
-      <CardView {$lst} on:getIdFromDivClick={handleGetIdFromDivClick} />
+      <CardView on:getIdFromDivClick={handleGetIdFromDivClick} />
     {/if}
 
     <!--<Map />  -->
   {:else if current_item === "About us"}
-    <div><h2>About us page xd</h2></div>
+    <AboutUs />
   {:else if current_item === "Post Junior Job"}
     <AddJuniorJobForm on:add={listenAdd} />
   {:else if current_item === "My Profile"}
@@ -159,14 +160,13 @@
     {:else}
       <Profile />
     {/if}
-  {:else if current_item === "Statistics"}
-    <div><h2>Here comes some interesting statistics</h2></div>
   {:else if current_item === "Register"}
     <Register on:registerSuccess={handleRegisterSuccess} />
   {:else if current_item === "Sign In"}
     <Login on:signIn={handleSignIn} />
   {/if}
 </main>
+
 <Footer />
 
 <!-- Css -->
@@ -175,5 +175,9 @@
     max-width: 80%;
     margin: 20px auto;
     display: flex;
+  }
+
+  .view-toggle {
+    align-items: right;
   }
 </style>
