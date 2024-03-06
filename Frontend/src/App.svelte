@@ -143,7 +143,7 @@
   <!-- svelte-ignore empty-block -->
   {#if current_item === "Home"}
     {#if currentView === "list"}
-      <ListView />
+      <ListView on:getIdFromDivClick={handleGetIdFromDivClick}/>
     {:else}
       <CardView {$lst} on:getIdFromDivClick={handleGetIdFromDivClick} />
     {/if}
