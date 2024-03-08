@@ -19,10 +19,10 @@
           }
         });
 
-        //console.log(
-        //  "joblistings data:",
-        //  JSON.stringify($filteredJobListings, null, 2)
-        //);
+        console.log(
+          "joblistings data:",
+          JSON.stringify($filteredJobListings, null, 2)
+        );
 
         // add tile layer to the map
         L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
@@ -35,8 +35,14 @@
         // source: https://nominatim.org/release-docs/develop/api/Search/
         $filteredJobListings.forEach((i) => {
           const address = i.city;
+          console.log("city van json obj: " + address);
           fetch(
-            `https://nominatim.openstreetmap.org/search?format=json&q=${address}, Belgium`
+            `https://nominatim.openstreetmap.org/search?format=json&q=${address},Belgium`,
+            {
+              headers: new Headers({
+                "Access-Control-Allow-Origin": "*",
+              }), 
+            }
           )
             .then((res) => res.json())
             .then((data) => {
@@ -58,7 +64,8 @@
               console.log("Error trying to fetch data: ", error);
             });
         });
-      });
+      }
+    );
     return unsubscribe;
   });
 </script>

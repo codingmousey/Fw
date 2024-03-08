@@ -149,7 +149,7 @@
       <CardView on:getIdFromDivClick={handleGetIdFromDivClick} />
     {/if}
 
-    <!--<Map />  -->
+    <Map />
   {:else if current_item === "About us"}
     <AboutUs />
   {:else if current_item === "Post Junior Job"}
